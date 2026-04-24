@@ -144,7 +144,7 @@ h1 { font-size: 44px; }
       <div class="info-row"><span class="info-key">Difficulty</span><span class="info-val">Progressive (easy → hard)</span></div>
       <div class="info-row"><span class="info-key">Score range</span><span class="info-val">70 – 145 IQ estimate</span></div>
     </div>
-    <button class="btn-primary" onclick="startTest()">Begin Assessment →</button>
+    <button class="btn-primary" id="btn-start">Begin Assessment →</button>
     <p class="share-note">Share this page: copy the URL to send to others.</p>
   </div>
 
@@ -174,7 +174,7 @@ h1 { font-size: 44px; }
         </div>
         <span class="timer-label">sec</span>
       </div>
-      <button class="btn-primary" id="next-btn" onclick="nextQuestion()" style="display:none;">Next →</button>
+      <button class="btn-primary" id="next-btn" style="display:none;">Next →</button>
     </div>
   </div>
 
@@ -191,8 +191,8 @@ h1 { font-size: 44px; }
     </div>
     <div class="percentile-note" id="percentile-note"></div>
     <div class="result-actions">
-      <button class="btn-primary" onclick="restartTest()">Retake Test →</button>
-      <button class="btn-ghost" onclick="shareResult()">Share Result ↗</button>
+      <button class="btn-primary" id="btn-restart">Retake Test →</button>
+      <button class="btn-ghost" id="btn-share">Share Result ↗</button>
     </div>
     <p class="share-note" id="share-confirm" style="display:none; color:#c8f542;">✓ Result copied to clipboard</p>
   </div>
@@ -390,6 +390,13 @@ setTimeout(function(){ el.style.display = ‘none’; }, 3000);
 });
 }
 }
+
+document.addEventListener(‘DOMContentLoaded’, function() {
+document.getElementById(‘btn-start’).addEventListener(‘click’, startTest);
+document.getElementById(‘next-btn’).addEventListener(‘click’, nextQuestion);
+document.getElementById(‘btn-restart’).addEventListener(‘click’, restartTest);
+document.getElementById(‘btn-share’).addEventListener(‘click’, shareResult);
+});
 </script>
 
 </body>
