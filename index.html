@@ -29,10 +29,10 @@ html, body {
 
 body {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-height: 100vh;
-  padding: 24px 16px;
+  padding: 32px 16px;
 }
 
 /* ── page visibility ─────────────────────────────────────── */
@@ -112,7 +112,7 @@ body {
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
 .q-progress-col { flex: 1; }
@@ -177,7 +177,7 @@ body {
 .q-tags {
   display: flex;
   gap: 8px;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
 }
 .tag {
   font-size: 9px;
@@ -190,9 +190,10 @@ body {
 .tag.domain-tag { border-color: rgba(200,245,66,.25); color: var(--accent); }
 
 .q-text {
-  font-size: clamp(16px, 3.5vw, 20px);
+  font-size: clamp(20px, 4vw, 26px);
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1.45;
+  color: #ffffff;
   margin-bottom: 10px;
 }
 .q-sub {
@@ -218,10 +219,10 @@ body {
   gap: 14px;
   background: var(--surface);
   border: 1px solid var(--border);
-  padding: 14px 18px;
-  color: var(--text);
+  padding: 18px 22px;
+  color: #ffffff;
   font-family: var(--font);
-  font-size: 13px;
+  font-size: 14px;
   text-align: left;
   cursor: pointer;
   line-height: 1.45;
