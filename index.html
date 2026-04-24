@@ -20,6 +20,58 @@
   --font:       'Courier New', Courier, monospace;
 }
 
+/* ── HIGH CONTRAST MODE ───────────────────────────────────── */
+html.hc {
+  --bg:         #ffffff;
+  --surface:    #f0f0f0;
+  --border:     #000000;
+  --accent:     #000000;
+  --accent-dim: rgba(0,0,0,0.08);
+  --text:       #000000;
+  --muted:      #222222;
+  --ok:         #007700;
+  --no:         #cc0000;
+}
+html.hc .q-text,
+html.hc .opt            { color: #000000; }
+html.hc .btn-solid      { color: #ffffff; }
+html.hc .tag.domain-tag { border-color: rgba(0,0,0,0.4); }
+html.hc .profile-card   { border: 1px solid rgba(0,0,0,0.3); border-left: 3px solid #000000; }
+html.hc .opt.state-correct { background: rgba(0,119,0,.12); }
+html.hc .opt.state-wrong   { background: rgba(204,0,0,.12); }
+html.hc .opt.state-reveal  { background: rgba(0,119,0,.07); }
+
+html.hc .intro-eyebrow  { font-size: 13px; }
+html.hc .intro-title    { font-size: clamp(60px, 16vw, 100px); }
+html.hc .intro-desc     { font-size: 16px; }
+html.hc .ic-label       { font-size: 12px; }
+html.hc .ic-val-text    { font-size: 16px; }
+html.hc .share-note     { font-size: 14px; }
+html.hc .q-num,
+html.hc .q-score        { font-size: 14px; }
+html.hc .q-text         { font-size: clamp(24px, 5vw, 32px); }
+html.hc .q-sub          { font-size: 17px; }
+html.hc .tag            { font-size: 12px; }
+html.hc .opt            { font-size: 17px; }
+html.hc .opt-key        { font-size: 13px; }
+html.hc .feedback       { font-size: 15px; }
+html.hc .timer-num      { font-size: 17px; }
+html.hc .btn-solid      { font-size: 15px; }
+html.hc .btn-outline    { font-size: 14px; }
+html.hc .result-eyebrow { font-size: 13px; }
+html.hc .iq-number      { font-size: clamp(88px, 20vw, 140px); }
+html.hc .iq-class       { font-size: 18px; }
+html.hc .iq-desc        { font-size: 15px; }
+html.hc .iq-percentile  { font-size: 15px; }
+html.hc .stat-val       { font-size: 36px; }
+html.hc .stat-label     { font-size: 12px; }
+html.hc .domains-title  { font-size: 12px; }
+html.hc .domain-name    { font-size: 14px; }
+html.hc .domain-pct     { font-size: 14px; }
+html.hc .profile-key    { font-size: 16px; }
+html.hc .profile-desc   { font-size: 16px; }
+html.hc .result-note    { font-size: 14px; }
+
 html, body {
   min-height: 100%;
   background: var(--bg);
@@ -51,6 +103,7 @@ body {
 .lang-row {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
   margin-bottom: 28px;
 }
 
@@ -67,6 +120,10 @@ body {
   transition: background .12s;
 }
 .btn-lang:hover { background: var(--accent-dim); }
+.btn-lang.active-toggle {
+  background: var(--accent);
+  color: var(--bg);
+}
 
 .intro-eyebrow {
   font-size: 10px;
@@ -462,6 +519,7 @@ body {
 <!-- ═══════════════ INTRO ═══════════════ -->
 <div id="p-intro" class="page active">
   <div class="lang-row">
+    <button id="btn-contrast" class="btn-lang">HC</button>
     <button id="btn-lang" class="btn-lang">ES</button>
   </div>
   <p class="intro-eyebrow" id="intro-tag"></p>
@@ -576,6 +634,7 @@ body {
 window.onload = function () {
 
   var lang = 'en';
+  var highContrast = false;
   var QUESTIONS;
   var LETTERS = ['A', 'B', 'C', 'D'];
   var CIRC    = 2 * Math.PI * 22;
@@ -613,6 +672,14 @@ window.onload = function () {
     el('btn-lang').textContent = lang === 'en' ? 'ES' : 'EN';
     document.documentElement.lang = lang;
     renderIntro();
+  }
+
+  /* ── contrast toggle ────────────────────────────────────── */
+  function toggleContrast() {
+    highContrast = !highContrast;
+    document.documentElement.classList.toggle('hc', highContrast);
+    el('btn-contrast').textContent = highContrast ? 'NM' : 'HC';
+    el('btn-contrast').classList.toggle('active-toggle', highContrast);
   }
 
   /* ── intro ──────────────────────────────────────────────── */
@@ -888,6 +955,7 @@ window.onload = function () {
 
   /* ── event listeners ────────────────────────────────────── */
   el('btn-lang').addEventListener('click', toggleLang);
+  el('btn-contrast').addEventListener('click', toggleContrast);
 
   el('btn-start').addEventListener('click', startTest);
 
