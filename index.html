@@ -202,7 +202,6 @@ document.getElementById(‘q-fb’).className = ‘fb’;
 document.getElementById(‘q-fb’).textContent = ‘’;
 document.getElementById(‘btn-next’).style.display = ‘none’;
 
-```
 var og = document.getElementById('q-opts');
 og.innerHTML = '';
 for (var i = 0; i < q.o.length; i++) {
@@ -215,7 +214,6 @@ for (var i = 0; i < q.o.length; i++) {
 
 og.addEventListener('click', handleOpt);
 startTimer();
-```
 
 }
 
@@ -251,7 +249,7 @@ clearInterval(timer);
 secs = 30;
 tickTimer();
 timer = setInterval(function() {
-secs–;
+secs--;
 tickTimer();
 if (secs <= 0) {
 clearInterval(timer);
