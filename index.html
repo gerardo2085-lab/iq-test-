@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cognitive Assessment — IQ Test</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+background-color: #0a0a0c;
+color: #e8e8f0;
+font-family: ‘Courier New’, Courier, monospace;
+min-height: 100vh;
+}
+
+body {
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 24px;
+}
+
+.container { width: 100%; max-width: 700px; }
+
+.lab-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; padding-bottom: 14px; border-bottom: 1px solid #1e1e24; }
+.lab-id { font-size: 10px; letter-spacing: 0.2em; color: #6b6b80; text-transform: uppercase; }
+.lab-badge { font-size: 9px; letter-spacing: 0.15em; color: #c8f542; border: 1px solid #8aaa20; padding: 3px 8px; text-transform: uppercase; }
+
+.screen { display: none; }
+.screen.active { display: block; }
+
+.title-tag { font-size: 10px; letter-spacing: 0.25em; color: #c8f542; text-transform: uppercase; margin-bottom: 16px; }
+
+h1 { font-family: Georgia, serif; font-size: 64px; font-weight: 700; line-height: 0.95; color: #e8e8f0; margin-bottom: 20px; }
+h1 span { color: #c8f542; }
+
+.subtitle { font-size: 12px; color: #6b6b80; line-height: 1.8; max-width: 460px; margin-bottom: 36px; }
+
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #1e1e24; margin-bottom: 32px; }
+.stat-cell { background-color: #111114; padding: 20px; text-align: center; border-right: 1px solid #1e1e24; }
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: Georgia, serif; font-size: 28px; font-weight: 700; color: #e8e8f0; display: block; }
+.stat-label { font-size: 9px; letter-spacing: 0.15em; color: #6b6b80; text-transform: uppercase; margin-top: 4px; display: block; }
+
+.info-block { border: 1px solid #1e1e24; background-color: #111114; padding: 0 20px; margin-bottom: 32px; }
+.info-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #1e1e24; font-size: 12px; }
+.info-row:last-child { border-bottom: none; }
+.info-key { color: #6b6b80; }
+.info-val { color: #e8e8f0; }
+
+.btn-primary { font-family: ‘Courier New’, monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; background-color: #c8f542; color: #0a0a0c; border: none; padding: 16px 36px; font-weight: 700; }
+.btn-primary:hover { background-color: #d8ff52; }
+
+.btn-ghost { font-family: ‘Courier New’, monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; background-color: transparent; color: #6b6b80; border: none; border-bottom: 1px solid #1e1e24; padding: 12px 0; margin-left: 20px; }
+.btn-ghost:hover { color: #e8e8f0; }
+
+.share-note { font-size: 10px; color: #6b6b80; letter-spacing: 0.1em; margin-top: 14px; }
+
+.progress-meta { display: flex; justify-content: space-between; font-size: 10px; letter-spacing: 0.12em; color: #6b6b80; text-transform: uppercase; margin-bottom: 10px; }
+.progress-track { height: 2px; background-color: #1e1e24; margin-bottom: 32px; }
+.progress-fill { height: 100%; background-color: #c8f542; transition: width 0.4s ease; }
+
+.q-category { font-size: 9px; letter-spacing: 0.2em; color: #c8f542; text-transform: uppercase; margin-bottom: 10px; }
+.q-text { font-family: Georgia, serif; font-size: 26px; font-weight: 700; line-height: 1.3; color: #e8e8f0; margin-bottom: 10px; min-height: 70px; white-space: pre-line; }
+.q-subtext { font-size: 12px; color: #6b6b80; margin-bottom: 28px; line-height: 1.7; }
+
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 28px; }
+
+.option-btn { font-family: ‘Courier New’, monospace; font-size: 12px; text-align: left; padding: 14px 16px; background-color: #111114; border: 1px solid #1e1e24; color: #e8e8f0; cursor: pointer; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+.option-btn:hover:not(:disabled) { border-color: #c8f542; background-color: #151518; }
+.option-btn.selected { border-color: #c8f542; background-color: #141a08; color: #c8f542; }
+.option-btn.correct { border-color: #c8f542; background-color: #141a08; color: #c8f542; }
+.option-btn.wrong { border-color: #ff4545; background-color: #1a0808; color: #ff4545; }
+.option-btn:disabled { cursor: default; }
+.opt-letter { font-size: 10px; color: #6b6b80; min-width: 16px; margin-top: 1px; }
+.option-btn.selected .opt-letter, .option-btn.correct .opt-letter { color: #c8f542; }
+.option-btn.wrong .opt-letter { color: #ff4545; }
+
+.feedback-msg { font-size: 11px; letter-spacing: 0.1em; padding: 8px 14px; margin-bottom: 14px; display: none; }
+.feedback-msg.show { display: block; }
+.feedback-msg.correct-fb { color: #c8f542; border-left: 2px solid #c8f542; }
+.feedback-msg.wrong-fb { color: #ff4545; border-left: 2px solid #ff4545; }
+
+.bottom-row { display: flex; align-items: center; justify-content: space-between; }
+.timer-wrap { display: flex; align-items: center; gap: 10px; }
+.timer-ring-wrap { position: relative; width: 48px; height: 48px; }
+.timer-ring { transform: rotate(-90deg); }
+.timer-circle-bg { fill: none; stroke: #1e1e24; stroke-width: 2; }
+.timer-circle-fg { fill: none; stroke: #c8f542; stroke-width: 2; stroke-linecap: round; }
+.timer-circle-fg.urgent { stroke: #ff4545; }
+.timer-inner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: Georgia, serif; font-size: 14px; font-weight: 700; color: #e8e8f0; }
+.timer-inner.urgent { color: #ff4545; }
+.timer-label { font-size: 9px; letter-spacing: 0.15em; color: #6b6b80; text-transform: uppercase; }
+
+.iq-label { font-size: 11px; letter-spacing: 0.2em; color: #6b6b80; text-transform: uppercase; display: block; margin-bottom: 8px; margin-top: 8px; }
+.iq-display { font-family: Georgia, serif; font-size: 120px; font-weight: 700; line-height: 1; color: #c8f542; display: block; margin-bottom: 8px; }
+.classification { font-family: Georgia, serif; font-size: 24px; font-weight: 700; color: #e8e8f0; margin-top: 8px; margin-bottom: 6px; }
+.classification-desc { font-size: 12px; color: #6b6b80; line-height: 1.7; max-width: 500px; margin-bottom: 32px; }
+
+.score-breakdown { border: 1px solid #1e1e24; background-color: #111114; margin-bottom: 28px; }
+.breakdown-title { font-size: 9px; letter-spacing: 0.2em; color: #6b6b80; text-transform: uppercase; padding: 14px 20px; border-bottom: 1px solid #1e1e24; }
+.breakdown-row { display: flex; align-items: center; padding: 14px 20px; border-bottom: 1px solid #1e1e24; gap: 16px; }
+.breakdown-row:last-child { border-bottom: none; }
+.bd-cat { font-size: 11px; color: #6b6b80; width: 120px; flex-shrink: 0; }
+.bd-bar-wrap { flex: 1; height: 3px; background-color: #1e1e24; }
+.bd-bar-fill { height: 100%; background-color: #c8f542; width: 0%; transition: width 1s ease 0.3s; }
+.bd-score { font-size: 11px; color: #e8e8f0; width: 40px; text-align: right; flex-shrink: 0; }
+
+.percentile-note { font-size: 11px; color: #6b6b80; line-height: 1.8; border-left: 2px solid #1e1e24; padding-left: 16px; margin-bottom: 28px; }
+.result-actions { display: flex; align-items: center; flex-wrap: wrap; }
+
+@media (max-width: 500px) {
+h1 { font-size: 44px; }
+.options-grid { grid-template-columns: 1fr; }
+.iq-display { font-size: 80px; }
+}
+</style>
+
+</head>
+<body>
+<div class="container">
+
+  <header class="lab-header">
+    <span class="lab-id">Cognitive Assessment Lab · v2.4</span>
+    <span class="lab-badge">● Live</span>
+  </header>
+
+  <!-- INTRO -->
+
+  <div class="screen active" id="screen-intro">
+    <div class="title-tag">// Standardized Intelligence Quotient Test</div>
+    <h1>Measure<br>Your <span>Mind.</span></h1>
+    <p class="subtitle">A 15-question adaptive assessment across four cognitive domains. Results are estimates based on standardized scoring methods.</p>
+    <div class="stats-row">
+      <div class="stat-cell"><span class="stat-num">15</span><span class="stat-label">Questions</span></div>
+      <div class="stat-cell"><span class="stat-num">~8</span><span class="stat-label">Min avg</span></div>
+      <div class="stat-cell"><span class="stat-num">4</span><span class="stat-label">Domains</span></div>
+    </div>
+    <div class="info-block">
+      <div class="info-row"><span class="info-key">Domains tested</span><span class="info-val">Verbal · Numerical · Spatial · Logic</span></div>
+      <div class="info-row"><span class="info-key">Time per question</span><span class="info-val">30 seconds</span></div>
+      <div class="info-row"><span class="info-key">Difficulty</span><span class="info-val">Progressive (easy → hard)</span></div>
+      <div class="info-row"><span class="info-key">Score range</span><span class="info-val">70 – 145 IQ estimate</span></div>
+    </div>
+    <button class="btn-primary" onclick="startTest()">Begin Assessment →</button>
+    <p class="share-note">Share this page: copy the URL to send to others.</p>
+  </div>
+
+  <!-- QUESTION -->
+
+  <div class="screen" id="screen-question">
+    <div class="progress-meta">
+      <span id="q-counter">Question 1 of 15</span>
+      <span id="q-domain">Verbal Reasoning</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="q-category" id="q-category"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="q-subtext" id="q-subtext"></div>
+    <div class="feedback-msg" id="feedback-msg"></div>
+    <div class="options-grid" id="options-grid"></div>
+    <div class="bottom-row">
+      <div class="timer-wrap">
+        <div class="timer-ring-wrap">
+          <svg class="timer-ring" width="48" height="48" viewBox="0 0 48 48">
+            <circle class="timer-circle-bg" cx="24" cy="24" r="20"/>
+            <circle class="timer-circle-fg" id="timer-circle" cx="24" cy="24" r="20"/>
+          </svg>
+          <div class="timer-inner" id="timer-inner">30</div>
+        </div>
+        <span class="timer-label">sec</span>
+      </div>
+      <button class="btn-primary" id="next-btn" onclick="nextQuestion()" style="display:none;">Next →</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+
+  <div class="screen" id="screen-result">
+    <span class="iq-label">Estimated IQ Score</span>
+    <span class="iq-display" id="result-iq">—</span>
+    <div class="classification" id="result-class"></div>
+    <div class="classification-desc" id="result-desc"></div>
+    <div class="score-breakdown">
+      <div class="breakdown-title">Domain Breakdown</div>
+      <div id="breakdown-rows"></div>
+    </div>
+    <div class="percentile-note" id="percentile-note"></div>
+    <div class="result-actions">
+      <button class="btn-primary" onclick="restartTest()">Retake Test →</button>
+      <button class="btn-ghost" onclick="shareResult()">Share Result ↗</button>
+    </div>
+    <p class="share-note" id="share-confirm" style="display:none; color:#c8f542;">✓ Result copied to clipboard</p>
+  </div>
+
+</div>
+<script>
+const QUESTIONS = [
+  {domain:"Verbal Reasoning",category:"Verbal",text:"Which word is the odd one out?",sub:"Choose the word that does not belong with the others.",options:["Carrot","Potato","Tomato","Radish"],answer:2,weight:1},
+  {domain:"Verbal Reasoning",category:"Verbal",text:"Complete the analogy: Book is to Library as Painting is to ___",sub:"",options:["Artist","Canvas","Gallery","Museum"],answer:2,weight:1},
+  {domain:"Verbal Reasoning",category:"Verbal",text:"Which word means the same as 'Ephemeral'?",sub:"",options:["Eternal","Transient","Substantial","Ancient"],answer:1,weight:2},
+  {domain:"Verbal Reasoning",category:"Verbal",text:"If all Bloops are Razzies and all Razzies are Lazzies, then:",sub:"",options:["All Bloops are definitely Lazzies","All Lazzies are Bloops","Some Bloops are not Lazzies","None of the above"],answer:0,weight:2},
+  {domain:"Verbal Reasoning",category:"Verbal",text:"Choose the word most OPPOSITE in meaning to: LOQUACIOUS",sub:"",options:["Talkative","Verbose","Taciturn","Eloquent"],answer:2,weight:3},
+  {domain:"Numerical Reasoning",category:"Numerical",text:"What is the next number in the series?\n2, 6, 12, 20, 30, ___",sub:"",options:["40","42","44","48"],answer:1,weight:1},
+  {domain:"Numerical Reasoning",category:"Numerical",text:"If a shirt costs $40 after a 20% discount, what was the original price?",sub:"",options:["$48","$50","$52","$56"],answer:1,weight:2},
+  {domain:"Numerical Reasoning",category:"Numerical",text:"What is the next number: 1, 1, 2, 3, 5, 8, 13, ___",sub:"Identify the pattern and continue the sequence.",options:["18","19","20","21"],answer:3,weight:1},
+  {domain:"Numerical Reasoning",category:"Numerical",text:"A train travels 120 km in 1.5 hours. How long to travel 200 km at the same speed?",sub:"",options:["2 hrs","2 hrs 20 min","2 hrs 30 min","2 hrs 40 min"],answer:2,weight:2},
+  {domain:"Spatial Reasoning",category:"Spatial",text:"A cube is painted red on all faces, then cut into 27 equal smaller cubes. How many smaller cubes have exactly 2 red faces?",sub:"",options:["8","12","6","4"],answer:1,weight:3},
+  {domain:"Spatial Reasoning",category:"Spatial",text:"If you fold a square piece of paper in half twice and cut a hole in the center, how many holes appear when fully unfolded?",sub:"",options:["1","2","4","8"],answer:2,weight:2},
+  {domain:"Spatial Reasoning",category:"Spatial",text:"How many faces does a regular dodecahedron have?",sub:"",options:["8","10","12","20"],answer:2,weight:2},
+  {domain:"Logical Reasoning",category:"Logic",text:"All doctors are scientists. Some scientists are artists. Therefore:",sub:"",options:["All doctors are artists","Some doctors may be artists","No doctors are artists","All artists are doctors"],answer:1,weight:2},
+  {domain:"Logical Reasoning",category:"Logic",text:"In a race, you overtake the person in 2nd place. What position are you in now?",sub:"",options:["1st","2nd","3rd","It depends"],answer:1,weight:1},
+  {domain:"Logical Reasoning",category:"Logic",text:"You have hourglasses measuring 7 min and 4 min. How do you measure exactly 9 minutes?",sub:"Choose the correct method.",options:["Start both; when 4 ends flip it; when 7 ends, 1 min remains on 4-min; flip 7; wait for 4 to finish","Start 7-min; when done start 4-min; total = 11 min","Start both; when 4 ends flip 7; when 7 ends flip 4; done at 9","Run 4-min twice then 1 min of 7-min"],answer:0,weight:3}
+];
+
+const TOTAL = 15;
+let currentQ = 0, answers = [], timerInterval = null, timeLeft = 30, answered = false;
+
+function startTest() {
+showScreen(‘screen-question’);
+currentQ = 0;
+answers = new Array(TOTAL).fill(null);
+renderQuestion();
+}
+
+function showScreen(id) {
+document.querySelectorAll(’.screen’).forEach(s => s.classList.remove(‘active’));
+document.getElementById(id).classList.add(‘active’);
+}
+
+function renderQuestion() {
+answered = false;
+const q = QUESTIONS[currentQ];
+document.getElementById(‘q-counter’).textContent = ’Question ’ + (currentQ + 1) + ’ of ’ + TOTAL;
+document.getElementById(‘q-domain’).textContent = q.domain;
+document.getElementById(‘q-category’).textContent = ’// ’ + q.category;
+document.getElementById(‘q-text’).textContent = q.text;
+document.getElementById(‘q-subtext’).textContent = q.sub;
+document.getElementById(‘progress-fill’).style.width = (currentQ / TOTAL * 100) + ‘%’;
+
+var grid = document.getElementById(‘options-grid’);
+grid.innerHTML = ‘’;
+var letters = [‘A’,‘B’,‘C’,‘D’];
+for (var i = 0; i < q.options.length; i++) {
+var btn = document.createElement(‘button’);
+btn.className = ‘option-btn’;
+btn.innerHTML = ‘<span class="opt-letter">’ + letters[i] + ‘</span><span>’ + q.options[i] + ‘</span>’;
+btn.setAttribute(‘data-index’, i);
+btn.onclick = (function(idx){ return function(){ selectAnswer(idx); }; })(i);
+grid.appendChild(btn);
+}
+
+var fb = document.getElementById(‘feedback-msg’);
+fb.className = ‘feedback-msg’;
+fb.textContent = ‘’;
+document.getElementById(‘next-btn’).style.display = ‘none’;
+startTimer();
+}
+
+function startTimer() {
+clearInterval(timerInterval);
+timeLeft = 30;
+updateTimerUI();
+timerInterval = setInterval(function() {
+timeLeft–;
+updateTimerUI();
+if (timeLeft <= 0) { clearInterval(timerInterval); if (!answered) timeOut(); }
+}, 1000);
+}
+
+function updateTimerUI() {
+var inner = document.getElementById(‘timer-inner’);
+var circle = document.getElementById(‘timer-circle’);
+var r = 20;
+var c = 2 * Math.PI * r;
+var offset = c * (1 - timeLeft / 30);
+circle.setAttribute(‘stroke-dasharray’, c);
+circle.setAttribute(‘stroke-dashoffset’, offset);
+inner.textContent = timeLeft;
+if (timeLeft <= 8) {
+inner.className = ‘timer-inner urgent’;
+circle.className = ‘timer-circle-fg urgent’;
+} else {
+inner.className = ‘timer-inner’;
+circle.className = ‘timer-circle-fg’;
+}
+}
+
+function selectAnswer(idx) {
+if (answered) return;
+answered = true;
+clearInterval(timerInterval);
+var q = QUESTIONS[currentQ];
+answers[currentQ] = idx;
+var btns = document.querySelectorAll(’.option-btn’);
+for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
+btns[idx].classList.add(idx === q.answer ? ‘selected’ : ‘wrong’);
+if (idx !== q.answer) btns[q.answer].classList.add(‘correct’);
+var fb = document.getElementById(‘feedback-msg’);
+if (idx === q.answer) {
+fb.textContent = ‘✓ Correct’;
+fb.className = ‘feedback-msg show correct-fb’;
+} else {
+fb.textContent = ’✗ Incorrect — Correct answer: ’ + [‘A’,‘B’,‘C’,‘D’][q.answer];
+fb.className = ‘feedback-msg show wrong-fb’;
+}
+document.getElementById(‘next-btn’).style.display = ‘inline-flex’;
+}
+
+function timeOut() {
+answered = true;
+answers[currentQ] = -1;
+var q = QUESTIONS[currentQ];
+var btns = document.querySelectorAll(’.option-btn’);
+for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
+btns[q.answer].classList.add(‘correct’);
+var fb = document.getElementById(‘feedback-msg’);
+fb.textContent = “⏱ Time’s up — Correct answer: “ + [‘A’,‘B’,‘C’,‘D’][q.answer];
+fb.className = ‘feedback-msg show wrong-fb’;
+document.getElementById(‘next-btn’).style.display = ‘inline-flex’;
+}
+
+function nextQuestion() {
+currentQ++;
+if (currentQ >= TOTAL) showResults(); else renderQuestion();
+}
+
+function showResults() {
+showScreen(‘screen-result’);
+var domains = { Verbal:{c:0,t:0}, Numerical:{c:0,t:0}, Spatial:{c:0,t:0}, Logic:{c:0,t:0} };
+var weighted = 0, maxScore = 0;
+for (var i = 0; i < QUESTIONS.length; i++) {
+var q = QUESTIONS[i];
+domains[q.category].t++;
+maxScore += q.weight;
+if (answers[i] === q.answer) { domains[q.category].c++; weighted += q.weight; }
+}
+var iq = Math.round(70 + (weighted / maxScore) * 75);
+var cls, desc, pct;
+if (iq >= 140) { cls=“Exceptionally Gifted”; desc=“Scores in this range represent profound intellectual ability. You process information with uncommon depth, breadth, and creative synthesis.”; pct=“Top 0.1% — 1 in 1,000 individuals”; }
+else if (iq >= 130) { cls=“Very Superior Intelligence”; desc=“Advanced reasoning, rapid pattern recognition, and exceptional problem-solving capacity across multiple cognitive domains.”; pct=“Top 2% — 1 in 50 individuals”; }
+else if (iq >= 120) { cls=“Superior Intelligence”; desc=“Above-average cognitive performance in most measured areas, with strong analytical and abstract reasoning skills.”; pct=“Top 9% — approximately 1 in 11 individuals”; }
+else if (iq >= 110) { cls=“High Average”; desc=“Above the typical range, showing solid reasoning and problem-solving abilities across verbal, numerical, and logical tasks.”; pct=“Top 25% — 1 in 4 individuals”; }
+else if (iq >= 90) { cls=“Average Intelligence”; desc=“Performance within the typical range for adults. Strengths and areas for growth distributed across all four cognitive domains.”; pct=“Middle 50% — the most common range”; }
+else if (iq >= 80) { cls=“Low Average”; desc=“Performance slightly below the average range. Consistent practice can significantly improve these skills.”; pct=“Bottom 25%”; }
+else { cls=“Below Average”; desc=“This result may reflect test conditions or time pressure. Consider retaking under different conditions.”; pct=“Bottom 10%”; }
+
+var iqEl = document.getElementById(‘result-iq’);
+var d = 70;
+var step = Math.max(1, Math.ceil((iq - 70) / 30));
+var anim = setInterval(function() { d = Math.min(d + step, iq); iqEl.textContent = d; if (d >= iq) clearInterval(anim); }, 30);
+
+document.getElementById(‘result-class’).textContent = cls;
+document.getElementById(‘result-desc’).textContent = desc;
+document.getElementById(‘percentile-note’).textContent = ’Estimated percentile: ’ + pct + ‘. This is a short-form estimate, not a clinical IQ test. Official assessments require evaluation by a qualified professional.’;
+
+var br = document.getElementById(‘breakdown-rows’);
+br.innerHTML = ‘’;
+var cats = [‘Verbal’,‘Numerical’,‘Spatial’,‘Logic’];
+for (var j = 0; j < cats.length; j++) {
+var cat = cats[j];
+var data = domains[cat];
+var p = data.t > 0 ? (data.c / data.t) * 100 : 0;
+var row = document.createElement(‘div’);
+row.className = ‘breakdown-row’;
+row.innerHTML = ‘<span class="bd-cat">’ + cat + ‘</span><div class="bd-bar-wrap"><div class="bd-bar-fill" style="width:0%" data-pct="' + p + '"></div></div><span class="bd-score">’ + data.c + ‘/’ + data.t + ‘</span>’;
+br.appendChild(row);
+}
+setTimeout(function() {
+var bars = document.querySelectorAll(’.bd-bar-fill’);
+for (var k = 0; k < bars.length; k++) bars[k].style.width = bars[k].getAttribute(‘data-pct’) + ‘%’;
+}, 100);
+}
+
+function restartTest() { showScreen(‘screen-intro’); }
+
+function shareResult() {
+var iq = document.getElementById(‘result-iq’).textContent;
+var cls = document.getElementById(‘result-class’).textContent;
+var text = ‘I scored ’ + iq + ’ IQ (’ + cls + ’) on the Cognitive Assessment Lab. Try it: ’ + window.location.href;
+if (navigator.clipboard) {
+navigator.clipboard.writeText(text).then(function() {
+var el = document.getElementById(‘share-confirm’);
+el.style.display = ‘block’;
+setTimeout(function(){ el.style.display = ‘none’; }, 3000);
+});
+}
+}
+</script>
+
+</body>
+</html>
