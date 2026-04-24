@@ -1,361 +1,839 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IQ Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IQ Assessment</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#0a0a0c;color:#e8e8f0;font-family:'Courier New',monospace;min-height:100vh}
-body{display:flex;align-items:center;justify-content:center;padding:24px}
-.wrap{width:100%;max-width:680px}
-.hdr{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222;padding-bottom:14px;margin-bottom:36px}
-.hdr span:first-child{font-size:10px;letter-spacing:.2em;color:#555;text-transform:uppercase}
-.hdr span:last-child{font-size:9px;letter-spacing:.15em;color:#c8f542;border:1px solid #8aaa20;padding:3px 8px;text-transform:uppercase}
-.page{display:none}
-.page.on{display:block}
-.tag{font-size:10px;letter-spacing:.25em;color:#c8f542;text-transform:uppercase;margin-bottom:14px}
-h1{font-family:Georgia,serif;font-size:58px;font-weight:700;line-height:.95;color:#e8e8f0;margin-bottom:18px}
-h1 em{color:#c8f542;font-style:normal}
-.sub{font-size:12px;color:#555;line-height:1.8;margin-bottom:32px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid #222;margin-bottom:28px}
-.cell{background:#111;padding:18px;text-align:center;border-right:1px solid #222}
-.cell:last-child{border-right:none}
-.big{display:block;font-family:Georgia,serif;font-size:28px;font-weight:700;color:#e8e8f0}
-.sml{display:block;font-size:9px;letter-spacing:.15em;color:#555;text-transform:uppercase;margin-top:4px}
-.ibox{border:1px solid #222;background:#111;padding:0 18px;margin-bottom:28px}
-.irow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #222;font-size:12px}
-.irow:last-child{border:none}
-.ik{color:#555}
-.iv{color:#e8e8f0}
-.btn{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;border:none;padding:15px 32px;font-weight:700;background:#c8f542;color:#0a0a0c;display:inline-block}
-.btn:hover{background:#d8ff52}
-.btng{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;border:none;border-bottom:1px solid #333;background:transparent;color:#555;padding:12px 0;margin-left:18px}
-.btng:hover{color:#e8e8f0}
-.note{font-size:10px;color:#444;margin-top:12px}
-.pmeta{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.12em;color:#555;text-transform:uppercase;margin-bottom:8px}
-.pbar{height:2px;background:#222;margin-bottom:28px}
-.pfill{height:100%;background:#c8f542;width:0;transition:width .4s}
-.qcat{font-size:9px;letter-spacing:.2em;color:#c8f542;text-transform:uppercase;margin-bottom:8px}
-.qtxt{font-family:Georgia,serif;font-size:24px;font-weight:700;line-height:1.3;color:#e8e8f0;margin-bottom:8px;min-height:65px;white-space:pre-line}
-.qsub{font-size:12px;color:#555;margin-bottom:24px;line-height:1.7}
-.og{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
-.ob{font-family:'Courier New',monospace;font-size:12px;text-align:left;padding:13px 14px;background:#111;border:1px solid #222;color:#e8e8f0;cursor:pointer;display:flex;gap:10px;align-items:flex-start;line-height:1.5;width:100%}
-.ob:hover:not([disabled]){border-color:#c8f542;background:#151518}
-.ob.sel{border-color:#c8f542;background:#141a08;color:#c8f542}
-.ob.cor{border-color:#c8f542;background:#141a08;color:#c8f542}
-.ob.wrg{border-color:#ff4545;background:#1a0808;color:#ff4545}
-.ob .ol{font-size:10px;color:#555;min-width:14px;flex-shrink:0}
-.ob.sel .ol,.ob.cor .ol{color:#c8f542}
-.ob.wrg .ol{color:#ff4545}
-.fb{font-size:11px;letter-spacing:.1em;padding:7px 12px;margin-bottom:12px;display:none}
-.fb.on{display:block}
-.fb.ok{color:#c8f542;border-left:2px solid #c8f542}
-.fb.no{color:#ff4545;border-left:2px solid #ff4545}
-.bot{display:flex;align-items:center;justify-content:space-between}
-.tw{display:flex;align-items:center;gap:10px}
-.tr{position:relative;width:48px;height:48px}
-.tr svg{transform:rotate(-90deg)}
-.ti{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:14px;font-weight:700;color:#e8e8f0}
-.ti.urg{color:#ff4545}
-.ts{font-size:9px;letter-spacing:.15em;color:#555;text-transform:uppercase}
-.rl{font-size:11px;letter-spacing:.2em;color:#555;text-transform:uppercase;display:block;margin-bottom:6px}
-.rn{font-family:Georgia,serif;font-size:110px;font-weight:700;line-height:1;color:#c8f542;display:block;margin-bottom:6px}
-.rc{font-family:Georgia,serif;font-size:22px;font-weight:700;color:#e8e8f0;margin-bottom:6px}
-.rd{font-size:12px;color:#555;line-height:1.7;margin-bottom:28px;max-width:500px}
-.bd{border:1px solid #222;background:#111;margin-bottom:24px}
-.bdt{font-size:9px;letter-spacing:.2em;color:#555;text-transform:uppercase;padding:13px 18px;border-bottom:1px solid #222}
-.bdr{display:flex;align-items:center;padding:13px 18px;border-bottom:1px solid #222;gap:14px}
-.bdr:last-child{border:none}
-.bdc{font-size:11px;color:#555;width:110px;flex-shrink:0}
-.bdw{flex:1;height:3px;background:#222}
-.bdf{height:100%;background:#c8f542;width:0;transition:width 1s ease .2s}
-.bds{font-size:11px;color:#e8e8f0;width:36px;text-align:right;flex-shrink:0}
-.pn{font-size:11px;color:#555;line-height:1.8;border-left:2px solid #333;padding-left:14px;margin-bottom:24px}
-.ra{display:flex;align-items:center;flex-wrap:wrap}
-@media(max-width:500px){h1{font-size:40px}.og{grid-template-columns:1fr}.rn{font-size:80px}}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:         #0a0a0c;
+  --surface:    #111116;
+  --border:     #1c1c26;
+  --accent:     #c8f542;
+  --accent-dim: rgba(200,245,66,0.10);
+  --text:       #ededf0;
+  --muted:      #5a5a6e;
+  --ok:         #4ecb82;
+  --no:         #f0505e;
+  --font:       'Courier New', Courier, monospace;
+}
+
+html, body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px 16px;
+}
+
+/* ── page visibility ─────────────────────────────────────── */
+.page { display: none; }
+.page.active {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* ── shared ──────────────────────────────────────────────── */
+.mono-label {
+  font-size: 10px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── INTRO ───────────────────────────────────────────────── */
+#p-intro { text-align: center; max-width: 480px; }
+
+.intro-eyebrow {
+  font-size: 10px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 40px;
+}
+
+.intro-title {
+  font-size: clamp(52px, 14vw, 88px);
+  font-weight: 700;
+  line-height: .95;
+  letter-spacing: -.03em;
+  margin-bottom: 20px;
+}
+.intro-title em { font-style: normal; color: var(--accent); }
+
+.intro-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.75;
+  letter-spacing: .04em;
+  margin-bottom: 44px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 16px 18px;
+  text-align: left;
+}
+.info-card .ic-label {
+  font-size: 9px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.info-card .ic-val {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ── QUESTION ────────────────────────────────────────────── */
+.q-topbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.q-progress-col { flex: 1; }
+
+.q-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.q-num { font-size: 11px; letter-spacing: .18em; color: var(--muted); }
+.q-score { font-size: 11px; letter-spacing: .18em; color: var(--accent); }
+
+.progress-track {
+  height: 2px;
+  background: var(--border);
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width .45s ease;
+  width: 0%;
+}
+
+/* timer ring */
+.timer-shell {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+}
+.timer-svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.t-track { fill: none; stroke: var(--border); stroke-width: 3; }
+.t-ring  {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 138.23;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset .95s linear, stroke .25s;
+}
+.timer-num {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  transition: color .25s;
+}
+.timer-shell.urgent .t-ring  { stroke: var(--no); }
+.timer-shell.urgent .timer-num { color: var(--no); }
+
+/* question content */
+.q-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.tag {
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.tag.domain-tag { border-color: rgba(200,245,66,.25); color: var(--accent); }
+
+.q-text {
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.q-sub {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+  letter-spacing: .04em;
+  margin-bottom: 28px;
+  min-height: 1em;
+}
+
+/* options */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+
+.opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 14px 18px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  line-height: 1.45;
+  transition: border-color .12s, background .12s;
+}
+.opt:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+.opt:disabled { cursor: default; }
+.opt-key {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+  min-width: 16px;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+.opt.state-correct { border-color: var(--ok); background: rgba(78,203,130,.09); }
+.opt.state-correct .opt-key { color: var(--ok); }
+.opt.state-wrong   { border-color: var(--no); background: rgba(240,80,94,.09); }
+.opt.state-wrong   .opt-key { color: var(--no); }
+.opt.state-reveal  { border-color: rgba(78,203,130,.5); background: rgba(78,203,130,.05); opacity: .75; }
+.opt.state-reveal  .opt-key { color: var(--ok); }
+
+/* feedback */
+.feedback {
+  display: none;
+  font-size: 12px;
+  letter-spacing: .08em;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.feedback.show { display: block; }
+.feedback.fb-ok      { background: rgba(78,203,130,.1);  color: var(--ok); border-left: 3px solid var(--ok); }
+.feedback.fb-no      { background: rgba(240,80,94,.1);   color: var(--no); border-left: 3px solid var(--no); }
+.feedback.fb-timeout { background: rgba(200,245,66,.07); color: var(--accent); border-left: 3px solid var(--accent); }
+
+/* ── shared buttons ──────────────────────────────────────── */
+.btn-solid {
+  background: var(--accent);
+  color: #0a0a0c;
+  border: none;
+  width: 100%;
+  padding: 15px 32px;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.btn-solid:hover { opacity: .82; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 12px 28px;
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: none;
+  transition: background .12s;
+}
+.btn-outline:hover { background: var(--accent-dim); }
+.btn-outline.show { display: inline-block; }
+
+/* ── RESULTS ─────────────────────────────────────────────── */
+#p-result { max-width: 560px; }
+
+.result-score-block {
+  text-align: center;
+  padding: 40px 0 36px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.result-eyebrow {
+  font-size: 10px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.iq-number {
+  font-size: clamp(80px, 18vw, 128px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: -.04em;
+}
+.iq-class {
+  font-size: 15px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+.iq-percentile { font-size: 12px; color: var(--muted); }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 18px 16px;
+  text-align: center;
+}
+.stat-val   { font-size: 30px; font-weight: 700; color: var(--accent); }
+.stat-label {
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.domains-section { margin-bottom: 36px; }
+.domains-title {
+  font-size: 9px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.domain-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 13px;
+}
+.domain-name {
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--muted);
+  width: 86px;
+  flex-shrink: 0;
+}
+.domain-track {
+  flex: 1;
+  height: 5px;
+  background: var(--border);
+}
+.domain-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width .9s ease;
+}
+.domain-pct {
+  font-size: 11px;
+  color: var(--accent);
+  width: 34px;
+  text-align: right;
+  flex-shrink: 0;
+}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <div class="hdr">
-    <span>Cognitive Assessment Lab · v2.4</span>
-    <span>● Live</span>
-  </div>
-
-  <!-- INTRO -->
-
-  <div class="page on" id="p-intro">
-    <div class="tag">// Standardized Intelligence Quotient Test</div>
-    <h1>Measure<br>Your <em>Mind.</em></h1>
-    <p class="sub">A 15-question adaptive assessment across four cognitive domains. Results are estimates based on standardized scoring methods.</p>
-    <div class="g3">
-      <div class="cell"><span class="big">15</span><span class="sml">Questions</span></div>
-      <div class="cell"><span class="big">~8</span><span class="sml">Min avg</span></div>
-      <div class="cell"><span class="big">4</span><span class="sml">Domains</span></div>
+<!-- ═══════════════ INTRO ═══════════════ -->
+<div id="p-intro" class="page active">
+  <p class="intro-eyebrow">// Cognitive Assessment v3.0</p>
+  <h1 class="intro-title">IQ<br><em>Test</em></h1>
+  <p class="intro-desc">
+    Measure verbal reasoning, numerical aptitude,<br>
+    spatial awareness, and logical thinking.
+  </p>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="ic-label">Questions</div>
+      <div class="ic-val">15</div>
     </div>
-    <div class="ibox">
-      <div class="irow"><span class="ik">Domains tested</span><span class="iv">Verbal · Numerical · Spatial · Logic</span></div>
-      <div class="irow"><span class="ik">Time per question</span><span class="iv">30 seconds</span></div>
-      <div class="irow"><span class="ik">Difficulty</span><span class="iv">Progressive (easy → hard)</span></div>
-      <div class="irow"><span class="ik">Score range</span><span class="iv">70 – 145 IQ estimate</span></div>
+    <div class="info-card">
+      <div class="ic-label">Time / Question</div>
+      <div class="ic-val">30s</div>
     </div>
-    <button class="btn" id="btn-start">Begin Assessment →</button>
-    <p class="note">Share this page: copy the URL to send to others.</p>
-  </div>
-
-  <!-- QUESTION -->
-
-  <div class="page" id="p-question">
-    <div class="pmeta"><span id="q-num">Question 1 of 15</span><span id="q-dom">Verbal Reasoning</span></div>
-    <div class="pbar"><div class="pfill" id="q-bar"></div></div>
-    <div class="qcat" id="q-cat"></div>
-    <div class="qtxt" id="q-txt"></div>
-    <div class="qsub" id="q-sub"></div>
-    <div class="fb" id="q-fb"></div>
-    <div class="og" id="q-opts"></div>
-    <div class="bot">
-      <div class="tw">
-        <div class="tr">
-          <svg width="48" height="48" viewBox="0 0 48 48">
-            <circle class="tc" cx="24" cy="24" r="20" fill="none" stroke="#222" stroke-width="2"/>
-            <circle id="t-ring" cx="24" cy="24" r="20" fill="none" stroke="#c8f542" stroke-width="2" stroke-linecap="round" stroke-dasharray="125.66" stroke-dashoffset="0"/>
-          </svg>
-          <div class="ti" id="t-num">30</div>
-        </div>
-        <span class="ts">sec</span>
-      </div>
-      <button class="btn" id="btn-next" style="display:none">Next →</button>
+    <div class="info-card">
+      <div class="ic-label">Domains</div>
+      <div class="ic-val">4</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Est. Duration</div>
+      <div class="ic-val">~7 min</div>
     </div>
   </div>
-
-  <!-- RESULT -->
-
-  <div class="page" id="p-result">
-    <span class="rl">Estimated IQ Score</span>
-    <span class="rn" id="r-iq">—</span>
-    <div class="rc" id="r-cls"></div>
-    <div class="rd" id="r-desc"></div>
-    <div class="bd">
-      <div class="bdt">Domain Breakdown</div>
-      <div id="r-bd"></div>
-    </div>
-    <div class="pn" id="r-pct"></div>
-    <div class="ra">
-      <button class="btn" id="btn-retry">Retake Test →</button>
-      <button class="btng" id="btn-share">Share Result ↗</button>
-    </div>
-    <p class="note" id="r-copied" style="display:none;color:#c8f542">✓ Copied to clipboard</p>
-  </div>
-
+  <button class="btn-solid" id="btn-start">Begin Assessment →</button>
 </div>
+
+<!-- ═══════════════ QUESTION ═══════════════ -->
+<div id="p-question" class="page">
+  <div class="q-topbar">
+    <div class="q-progress-col">
+      <div class="q-meta-row">
+        <span class="q-num" id="q-num">Question 1 of 15</span>
+        <span class="q-score" id="q-score">Score: 0</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="q-bar"></div>
+      </div>
+    </div>
+    <div class="timer-shell" id="timer-shell">
+      <svg class="timer-svg" width="54" height="54" viewBox="0 0 54 54">
+        <circle class="t-track" cx="27" cy="27" r="22"/>
+        <circle class="t-ring"  cx="27" cy="27" r="22" id="t-ring"/>
+      </svg>
+      <div class="timer-num" id="t-num">30</div>
+    </div>
+  </div>
+
+  <div class="q-tags">
+    <span class="tag domain-tag" id="q-domain">VERBAL</span>
+    <span class="tag" id="q-category">// ANALOGY</span>
+  </div>
+
+  <div class="q-text" id="q-text"></div>
+  <div class="q-sub"  id="q-sub"></div>
+
+  <div class="options-list" id="q-opts"></div>
+
+  <div class="feedback" id="q-feedback"></div>
+
+  <button class="btn-outline" id="btn-next">Next Question →</button>
+</div>
+
+<!-- ═══════════════ RESULTS ═══════════════ -->
+<div id="p-result" class="page">
+  <div class="result-score-block">
+    <p class="result-eyebrow">Your Estimated IQ</p>
+    <div class="iq-number" id="r-iq">—</div>
+    <div class="iq-class"      id="r-class"></div>
+    <div class="iq-percentile" id="r-pct"></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val"   id="r-correct">0</div>
+      <div class="stat-label">Correct</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val"   id="r-wrong">0</div>
+      <div class="stat-label">Wrong</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val"   id="r-timeout">0</div>
+      <div class="stat-label">Timeout</div>
+    </div>
+  </div>
+
+  <div class="domains-section">
+    <p class="domains-title">Domain Breakdown</p>
+    <div class="domain-row">
+      <span class="domain-name">Verbal</span>
+      <div class="domain-track"><div class="domain-fill" id="bar-verbal"></div></div>
+      <span class="domain-pct" id="pct-verbal">0%</span>
+    </div>
+    <div class="domain-row">
+      <span class="domain-name">Numerical</span>
+      <div class="domain-track"><div class="domain-fill" id="bar-numerical"></div></div>
+      <span class="domain-pct" id="pct-numerical">0%</span>
+    </div>
+    <div class="domain-row">
+      <span class="domain-name">Spatial</span>
+      <div class="domain-track"><div class="domain-fill" id="bar-spatial"></div></div>
+      <span class="domain-pct" id="pct-spatial">0%</span>
+    </div>
+    <div class="domain-row">
+      <span class="domain-name">Logic</span>
+      <div class="domain-track"><div class="domain-fill" id="bar-logic"></div></div>
+      <span class="domain-pct" id="pct-logic">0%</span>
+    </div>
+  </div>
+
+  <button class="btn-solid" id="btn-restart">Retake Assessment →</button>
+</div>
+
 <script>
-window.onload = function() {
+window.onload = function () {
 
-var QS = [
-{d:“Verbal Reasoning”,c:“Verbal”,t:“Which word is the odd one out?”,s:“Choose the word that does not belong with the others.”,o:[“Carrot”,“Potato”,“Tomato”,“Radish”],a:2,w:1},
-{d:“Verbal Reasoning”,c:“Verbal”,t:“Complete the analogy: Book is to Library as Painting is to ___”,s:””,o:[“Artist”,“Canvas”,“Gallery”,“Museum”],a:2,w:1},
-{d:“Verbal Reasoning”,c:“Verbal”,t:“Which word means the same as ‘Ephemeral’?”,s:””,o:[“Eternal”,“Transient”,“Substantial”,“Ancient”],a:1,w:2},
-{d:“Verbal Reasoning”,c:“Verbal”,t:“If all Bloops are Razzies and all Razzies are Lazzies, then:”,s:””,o:[“All Bloops are definitely Lazzies”,“All Lazzies are Bloops”,“Some Bloops are not Lazzies”,“None of the above”],a:0,w:2},
-{d:“Verbal Reasoning”,c:“Verbal”,t:“Choose the word most OPPOSITE in meaning to: LOQUACIOUS”,s:””,o:[“Talkative”,“Verbose”,“Taciturn”,“Eloquent”],a:2,w:3},
-{d:“Numerical Reasoning”,c:“Numerical”,t:“What is the next number in the series?\n2, 6, 12, 20, 30, ___”,s:””,o:[“40”,“42”,“44”,“48”],a:1,w:1},
-{d:“Numerical Reasoning”,c:“Numerical”,t:“If a shirt costs $40 after a 20% discount, what was the original price?”,s:””,o:[”$48”,”$50”,”$52”,”$56”],a:1,w:2},
-{d:“Numerical Reasoning”,c:“Numerical”,t:“What is the next number: 1, 1, 2, 3, 5, 8, 13, ___”,s:“Identify the pattern and continue the sequence.”,o:[“18”,“19”,“20”,“21”],a:3,w:1},
-{d:“Numerical Reasoning”,c:“Numerical”,t:“A train travels 120 km in 1.5 hours. How long to travel 200 km at the same speed?”,s:””,o:[“2 hrs”,“2 hrs 20 min”,“2 hrs 30 min”,“2 hrs 40 min”],a:2,w:2},
-{d:“Spatial Reasoning”,c:“Spatial”,t:“A cube is painted red on all faces, then cut into 27 equal smaller cubes. How many smaller cubes have exactly 2 red faces?”,s:””,o:[“8”,“12”,“6”,“4”],a:1,w:3},
-{d:“Spatial Reasoning”,c:“Spatial”,t:“If you fold a square paper in half twice and cut a hole in the center, how many holes appear when fully unfolded?”,s:””,o:[“1”,“2”,“4”,“8”],a:2,w:2},
-{d:“Spatial Reasoning”,c:“Spatial”,t:“How many faces does a regular dodecahedron have?”,s:””,o:[“8”,“10”,“12”,“20”],a:2,w:2},
-{d:“Logical Reasoning”,c:“Logic”,t:“All doctors are scientists. Some scientists are artists. Therefore:”,s:””,o:[“All doctors are artists”,“Some doctors may be artists”,“No doctors are artists”,“All artists are doctors”],a:1,w:2},
-{d:“Logical Reasoning”,c:“Logic”,t:“In a race, you overtake the person in 2nd place. What position are you in now?”,s:””,o:[“1st”,“2nd”,“3rd”,“It depends”],a:1,w:1},
-{d:“Logical Reasoning”,c:“Logic”,t:“You have hourglasses measuring 7 min and 4 min. How do you measure exactly 9 minutes?”,s:“Choose the correct method.”,o:[“Start both; when 4 ends flip it; when 7 ends 1 min remains on 4; flip 7; wait for 4”,“Start 7-min; when done start 4-min; total = 11 min”,“Start both; when 4 ends flip 7; when 7 ends flip 4; done”,“Run 4-min twice then 1 min of 7-min”],a:0,w:3}
-];
+  var QUESTIONS = [
+    /* ── Verbal ─────────────────────────────────────────────────── */
+    {
+      domain: 'Verbal', category: 'Analogy',
+      text: 'BOOK is to LIBRARY as PAINTING is to ___',
+      sub: 'Choose the word that best completes the analogy.',
+      opts: ['Studio', 'Museum', 'Canvas', 'Gallery'],
+      answer: 1
+    },
+    {
+      domain: 'Verbal', category: 'Odd One Out',
+      text: 'Which word does not belong with the others?',
+      sub: 'Consider what the remaining three have in common.',
+      opts: ['Sparrow', 'Eagle', 'Penguin', 'Hawk'],
+      answer: 2
+    },
+    {
+      domain: 'Verbal', category: 'Vocabulary',
+      text: '"Ephemeral" most nearly means:',
+      sub: 'Select the closest definition.',
+      opts: ['Eternal', 'Fleeting', 'Enormous', 'Colorful'],
+      answer: 1
+    },
+    {
+      domain: 'Verbal', category: 'Analogy',
+      text: 'DOCTOR is to HOSPITAL as JUDGE is to ___',
+      sub: 'Choose the word that best completes the analogy.',
+      opts: ['Verdict', 'Courtroom', 'Prison', 'Law'],
+      answer: 1
+    },
+    /* ── Numerical ───────────────────────────────────────────────── */
+    {
+      domain: 'Numerical', category: 'Number Series',
+      text: 'What number comes next in the sequence?',
+      sub: '2   →   6   →   18   →   54   →   ___',
+      opts: ['108', '144', '162', '180'],
+      answer: 2
+    },
+    {
+      domain: 'Numerical', category: 'Geometry',
+      text: 'A rectangle has length 8 and width 5. What is its perimeter?',
+      sub: 'Perimeter is the total distance around all four sides.',
+      opts: ['13', '26', '40', '30'],
+      answer: 1
+    },
+    {
+      domain: 'Numerical', category: 'Percentage',
+      text: 'What is 15% of 240?',
+      sub: 'Calculate the exact value.',
+      opts: ['24', '30', '36', '42'],
+      answer: 2
+    },
+    {
+      domain: 'Numerical', category: 'Algebra',
+      text: 'If 3x + 7 = 22, what is the value of x?',
+      sub: 'Solve for x.',
+      opts: ['3', '4', '5', '6'],
+      answer: 2
+    },
+    /* ── Spatial ─────────────────────────────────────────────────── */
+    {
+      domain: 'Spatial', category: 'Pattern Sequence',
+      text: 'What comes next in the series?',
+      sub: '▲   ▽   ▲▲   ▽▽   ▲▲▲   ___',
+      opts: ['▲▲▲▲', '▽▽▽', '▽▽', '▽'],
+      answer: 1
+    },
+    {
+      domain: 'Spatial', category: 'Clock Angles',
+      text: 'A clock shows exactly 3:00. What is the angle between the hour and minute hands?',
+      sub: 'A full clock face spans 360°.',
+      opts: ['45°', '60°', '90°', '120°'],
+      answer: 2
+    },
+    {
+      domain: 'Spatial', category: 'Counting Shapes',
+      text: 'How many squares of all sizes are contained in a 3 × 3 grid?',
+      sub: 'Include all overlapping squares, not just the small unit squares.',
+      opts: ['9', '12', '14', '16'],
+      answer: 2
+    },
+    {
+      domain: 'Spatial', category: 'Nets & Faces',
+      text: 'When a cube is unfolded flat into a net, how many faces does that net contain?',
+      sub: 'Think about every distinct face on a 3-D cube.',
+      opts: ['4', '5', '6', '8'],
+      answer: 2
+    },
+    /* ── Logic ───────────────────────────────────────────────────── */
+    {
+      domain: 'Logic', category: 'Syllogism',
+      text: 'All roses are flowers. Some flowers fade quickly. Therefore:',
+      sub: 'Choose the only logically valid conclusion.',
+      opts: [
+        'All roses fade quickly',
+        'Some roses may fade quickly',
+        'No roses fade quickly',
+        'Roses are not flowers'
+      ],
+      answer: 1
+    },
+    {
+      domain: 'Logic', category: 'Ordering',
+      text: 'If A > B, B > C, and C > D, which statement must be true?',
+      sub: 'Apply transitivity of inequalities.',
+      opts: ['A = D', 'D > A', 'A > D', 'B = C'],
+      answer: 2
+    },
+    {
+      domain: 'Logic', category: 'Odd One Out',
+      text: 'Which number does not belong in this group?',
+      sub: 'Three of the four share a well-known mathematical property.',
+      opts: ['4', '8', '9', '16'],
+      answer: 1
+    }
+  ];
 
-var cur = 0, ans = [], timer = null, secs = 30, done = false;
-var LETTERS = [‘A’,‘B’,‘C’,‘D’];
+  var LETTERS = ['A', 'B', 'C', 'D'];
+  var CIRC    = 2 * Math.PI * 22; // stroke-dasharray for r=22
 
-function show(id) {
-var pages = document.querySelectorAll(’.page’);
-for (var i = 0; i < pages.length; i++) pages[i].className = ‘page’;
-document.getElementById(id).className = ‘page on’;
-}
+  var cur, answers, timerID, secs, done, score;
 
-function startTest() {
-cur = 0;
-ans = [];
-for (var i = 0; i < QS.length; i++) ans.push(-1);
-show(‘p-question’);
-renderQ();
-}
-
-function renderQ() {
-done = false;
-var q = QS[cur];
-document.getElementById(‘q-num’).textContent = ‘Question ’ + (cur+1) + ’ of 15’;
-document.getElementById(‘q-dom’).textContent = q.d;
-document.getElementById(‘q-cat’).textContent = ’// ’ + q.c;
-document.getElementById(‘q-txt’).textContent = q.t;
-document.getElementById(‘q-sub’).textContent = q.s;
-document.getElementById(‘q-bar’).style.width = Math.round(cur/15*100) + ‘%’;
-document.getElementById(‘q-fb’).className = ‘fb’;
-document.getElementById(‘q-fb’).textContent = ‘’;
-document.getElementById(‘btn-next’).style.display = ‘none’;
-
-var og = document.getElementById('q-opts');
-og.innerHTML = '';
-for (var i = 0; i < q.o.length; i++) {
-  var b = document.createElement('button');
-  b.className = 'ob';
-  b.innerHTML = '<span class="ol">' + LETTERS[i] + '</span><span>' + q.o[i] + '</span>';
-  b.setAttribute('data-i', i);
-  og.appendChild(b);
-}
-
-og.addEventListener('click', handleOpt);
-startTimer();
-
-}
-
-function handleOpt(e) {
-var b = e.target.closest(’.ob’);
-if (!b || done) return;
-pick(parseInt(b.getAttribute(‘data-i’)));
-}
-
-function pick(idx) {
-if (done) return;
-done = true;
-clearInterval(timer);
-ans[cur] = idx;
-var q = QS[cur];
-var btns = document.querySelectorAll(’.ob’);
-for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
-btns[idx].className = ’ob ’ + (idx === q.a ? ‘sel’ : ‘wrg’);
-if (idx !== q.a) btns[q.a].className = ‘ob cor’;
-var fb = document.getElementById(‘q-fb’);
-if (idx === q.a) {
-fb.textContent = ‘✓ Correct’;
-fb.className = ‘fb on ok’;
-} else {
-fb.textContent = ’✗ Incorrect — Correct answer: ’ + LETTERS[q.a];
-fb.className = ‘fb on no’;
-}
-document.getElementById(‘btn-next’).style.display = ‘inline-block’;
-}
-
-function startTimer() {
-clearInterval(timer);
-secs = 30;
-tickTimer();
-timer = setInterval(function() {
-secs--;
-tickTimer();
-if (secs <= 0) {
-clearInterval(timer);
-if (!done) timeout();
-}
-}, 1000);
-}
-
-function tickTimer() {
-var ring = document.getElementById(‘t-ring’);
-var num = document.getElementById(‘t-num’);
-var c = 2 * Math.PI * 20;
-ring.setAttribute(‘stroke-dasharray’, c);
-ring.setAttribute(‘stroke-dashoffset’, c * (1 - secs/30));
-ring.setAttribute(‘stroke’, secs <= 8 ? ‘#ff4545’ : ‘#c8f542’);
-num.textContent = secs;
-num.className = secs <= 8 ? ‘ti urg’ : ‘ti’;
-}
-
-function timeout() {
-done = true;
-var q = QS[cur];
-var btns = document.querySelectorAll(’.ob’);
-for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
-btns[q.a].className = ‘ob cor’;
-var fb = document.getElementById(‘q-fb’);
-fb.textContent = “⏱ Time’s up — Correct answer: “ + LETTERS[q.a];
-fb.className = ‘fb on no’;
-document.getElementById(‘btn-next’).style.display = ‘inline-block’;
-}
-
-function nextQ() {
-document.getElementById(‘q-opts’).removeEventListener(‘click’, handleOpt);
-cur++;
-if (cur >= 15) showResult(); else renderQ();
-}
-
-function showResult() {
-show(‘p-result’);
-var dom = {Verbal:{c:0,t:0},Numerical:{c:0,t:0},Spatial:{c:0,t:0},Logic:{c:0,t:0}};
-var w = 0, max = 0;
-for (var i = 0; i < QS.length; i++) {
-var q = QS[i];
-dom[q.c].t++;
-max += q.w;
-if (ans[i] === q.a) { dom[q.c].c++; w += q.w; }
-}
-var iq = Math.round(70 + (w/max)*75);
-var cls, desc, pct;
-if (iq>=140){cls=“Exceptionally Gifted”;desc=“Profound intellectual ability. You process information with uncommon depth, breadth, and creative synthesis.”;pct=“Top 0.1% — 1 in 1,000”}
-else if(iq>=130){cls=“Very Superior Intelligence”;desc=“Advanced reasoning, rapid pattern recognition, and exceptional problem-solving across multiple cognitive domains.”;pct=“Top 2% — 1 in 50”}
-else if(iq>=120){cls=“Superior Intelligence”;desc=“Above-average cognitive performance with strong analytical and abstract reasoning skills.”;pct=“Top 9% — 1 in 11”}
-else if(iq>=110){cls=“High Average”;desc=“Above the typical range, with solid reasoning and problem-solving across verbal, numerical, and logical tasks.”;pct=“Top 25% — 1 in 4”}
-else if(iq>=90){cls=“Average Intelligence”;desc=“Performance within the typical range for adults, with strengths across all four cognitive domains.”;pct=“Middle 50%”}
-else if(iq>=80){cls=“Low Average”;desc=“Slightly below average in some domains. Consistent practice can significantly improve these skills.”;pct=“Bottom 25%”}
-else{cls=“Below Average”;desc=“This result may reflect test conditions or time pressure. Consider retaking under different conditions.”;pct=“Bottom 10%”}
-
-```
-var iqEl = document.getElementById('r-iq');
-var d = 70, step = Math.max(1, Math.ceil((iq-70)/30));
-var an = setInterval(function(){ d=Math.min(d+step,iq); iqEl.textContent=d; if(d>=iq) clearInterval(an); }, 30);
-
-document.getElementById('r-cls').textContent = cls;
-document.getElementById('r-desc').textContent = desc;
-document.getElementById('r-pct').textContent = 'Estimated percentile: ' + pct + '. This is a short-form estimate, not a clinical IQ test.';
-
-var bd = document.getElementById('r-bd');
-bd.innerHTML = '';
-var cats = ['Verbal','Numerical','Spatial','Logic'];
-for (var j = 0; j < cats.length; j++) {
-  var cat = cats[j], data = dom[cat];
-  var p = data.t > 0 ? Math.round(data.c/data.t*100) : 0;
-  var row = document.createElement('div');
-  row.className = 'bdr';
-  row.innerHTML = '<span class="bdc">'+cat+'</span><div class="bdw"><div class="bdf" id="bar-'+j+'"></div></div><span class="bds">'+data.c+'/'+data.t+'</span>';
-  bd.appendChild(row);
-}
-setTimeout(function(){
-  for (var k = 0; k < cats.length; k++) {
-    var el = document.getElementById('bar-'+k);
-    if (el) el.style.width = Math.round(dom[cats[k]].c/dom[cats[k]].t*100)+'%';
+  /* ── helpers ──────────────────────────────────────────────────── */
+  function show(id) {
+    var pages = document.querySelectorAll('.page');
+    for (var i = 0; i < pages.length; i++) {
+      pages[i].classList.remove('active');
+    }
+    document.getElementById(id).classList.add('active');
   }
-}, 150);
-```
 
-}
+  function el(id) { return document.getElementById(id); }
 
-// Bind all buttons
-document.getElementById(‘btn-start’).addEventListener(‘click’, startTest);
-document.getElementById(‘btn-next’).addEventListener(‘click’, nextQ);
-document.getElementById(‘btn-retry’).addEventListener(‘click’, function(){ show(‘p-intro’); });
-document.getElementById(‘btn-share’).addEventListener(‘click’, function(){
-var iq = document.getElementById(‘r-iq’).textContent;
-var cls = document.getElementById(‘r-cls’).textContent;
-var txt = ‘I scored ‘+iq+’ IQ (’+cls+’) on the Cognitive Assessment Lab. Try it: ’+window.location.href;
-if (navigator.clipboard) {
-navigator.clipboard.writeText(txt).then(function(){
-var el = document.getElementById(‘r-copied’);
-el.style.display = ‘block’;
-setTimeout(function(){ el.style.display=‘none’; }, 3000);
-});
-}
-});
+  /* ── game flow ────────────────────────────────────────────────── */
+  function startTest() {
+    cur     = 0;
+    score   = 0;
+    answers = [];
+    for (var i = 0; i < QUESTIONS.length; i++) { answers.push(-1); }
+    show('p-question');
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    clearInterval(timerID);
+    done = false;
+
+    var q   = QUESTIONS[cur];
+    var pct = Math.round((cur / QUESTIONS.length) * 100);
+
+    el('q-num').textContent      = 'Question ' + (cur + 1) + ' of ' + QUESTIONS.length;
+    el('q-score').textContent    = 'Score: ' + score;
+    el('q-bar').style.width      = pct + '%';
+    el('q-domain').textContent   = q.domain.toUpperCase();
+    el('q-category').textContent = '// ' + q.category.toUpperCase();
+    el('q-text').textContent     = q.text;
+    el('q-sub').textContent      = q.sub;
+
+    var fb = el('q-feedback');
+    fb.className    = 'feedback';
+    fb.textContent  = '';
+
+    var btnNext = el('btn-next');
+    btnNext.classList.remove('show');
+    btnNext.textContent = (cur === QUESTIONS.length - 1) ? 'See Results →' : 'Next Question →';
+
+    var list = el('q-opts');
+    list.innerHTML = '';
+    for (var i = 0; i < q.opts.length; i++) {
+      var btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.setAttribute('data-idx', i);
+      btn.innerHTML =
+        '<span class="opt-key">' + LETTERS[i] + '</span>' +
+        '<span>' + q.opts[i] + '</span>';
+      list.appendChild(btn);
+    }
+
+    el('timer-shell').classList.remove('urgent');
+    startTimer();
+  }
+
+  /* ── timer ────────────────────────────────────────────────────── */
+  function startTimer() {
+    secs = 30;
+    refreshTimer();
+    timerID = setInterval(function () {
+      secs--;
+      refreshTimer();
+      if (secs <= 10) { el('timer-shell').classList.add('urgent'); }
+      if (secs <= 0)  { clearInterval(timerID); if (!done) { timeOut(); } }
+    }, 1000);
+  }
+
+  function refreshTimer() {
+    var ratio = secs / 30;
+    el('t-ring').style.strokeDashoffset = CIRC * (1 - ratio);
+    el('t-num').textContent = secs;
+  }
+
+  /* ── answer handling ──────────────────────────────────────────── */
+  function pick(idx) {
+    if (done) { return; }
+    done = true;
+    clearInterval(timerID);
+
+    var q    = QUESTIONS[cur];
+    var opts = document.querySelectorAll('.opt');
+    for (var i = 0; i < opts.length; i++) { opts[i].disabled = true; }
+
+    answers[cur] = idx;
+
+    if (idx === q.answer) {
+      score++;
+      opts[idx].classList.add('state-correct');
+      showFeedback('fb-ok', '✓  Correct');
+    } else {
+      opts[idx].classList.add('state-wrong');
+      opts[q.answer].classList.add('state-reveal');
+      showFeedback('fb-no', '✗  Incorrect — correct answer: ' + LETTERS[q.answer]);
+    }
+
+    el('q-score').textContent = 'Score: ' + score;
+    el('btn-next').classList.add('show');
+  }
+
+  function timeOut() {
+    done = true;
+    var q    = QUESTIONS[cur];
+    var opts = document.querySelectorAll('.opt');
+    for (var i = 0; i < opts.length; i++) { opts[i].disabled = true; }
+    opts[q.answer].classList.add('state-reveal');
+    showFeedback('fb-timeout', '⏱  Time expired — correct answer: ' + LETTERS[q.answer]);
+    el('btn-next').classList.add('show');
+  }
+
+  function showFeedback(cls, msg) {
+    var fb      = el('q-feedback');
+    fb.textContent = msg;
+    fb.className   = 'feedback show ' + cls;
+  }
+
+  function nextQuestion() {
+    cur++;
+    if (cur >= QUESTIONS.length) { showResults(); } else { renderQuestion(); }
+  }
+
+  /* ── results ──────────────────────────────────────────────────── */
+  function calcIQ(correct) {
+    return Math.round(85 + (correct / QUESTIONS.length) * 57);
+  }
+
+  function iqLabel(iq) {
+    if (iq >= 138) { return ['Exceptional',    'Top 0.5% of population']; }
+    if (iq >= 128) { return ['Gifted',          'Top 3% of population'];   }
+    if (iq >= 118) { return ['Superior',        'Top 11% of population'];  }
+    if (iq >= 108) { return ['Above Average',   'Top 27% of population'];  }
+    if (iq >= 95)  { return ['Average',         'Middle 50% of population']; }
+    return                  ['Below Average',   'Bottom 25% of population'];
+  }
+
+  function showResults() {
+    clearInterval(timerID);
+    show('p-result');
+
+    var iq  = calcIQ(score);
+    var lbl = iqLabel(iq);
+
+    el('r-class').textContent = lbl[0];
+    el('r-pct').textContent   = lbl[1];
+
+    var wrong   = 0;
+    var timeout = 0;
+    for (var i = 0; i < answers.length; i++) {
+      if (answers[i] === -1)                          { timeout++; }
+      else if (answers[i] !== QUESTIONS[i].answer)    { wrong++;   }
+    }
+    el('r-correct').textContent = score;
+    el('r-wrong').textContent   = wrong;
+    el('r-timeout').textContent = timeout;
+
+    var domains = ['Verbal', 'Numerical', 'Spatial', 'Logic'];
+    for (var d = 0; d < domains.length; d++) {
+      var dom   = domains[d];
+      var total = 0;
+      var hits  = 0;
+      for (var i = 0; i < QUESTIONS.length; i++) {
+        if (QUESTIONS[i].domain === dom) {
+          total++;
+          if (answers[i] === QUESTIONS[i].answer) { hits++; }
+        }
+      }
+      var pct = total > 0 ? Math.round((hits / total) * 100) : 0;
+      var key = dom.toLowerCase();
+      el('bar-' + key).style.width  = pct + '%';
+      el('pct-' + key).textContent  = pct + '%';
+    }
+
+    /* animated IQ counter */
+    var display  = el('r-iq');
+    var current  = Math.round(iq * 0.6);
+    display.textContent = current;
+    var step = setInterval(function () {
+      current += Math.ceil((iq - current) / 5);
+      if (current >= iq) { current = iq; clearInterval(step); }
+      display.textContent = current;
+    }, 35);
+  }
+
+  /* ── event listeners ──────────────────────────────────────────── */
+  el('btn-start').addEventListener('click', startTest);
+  el('btn-next').addEventListener('click', nextQuestion);
+  el('btn-restart').addEventListener('click', startTest);
+
+  el('q-opts').addEventListener('click', function (e) {
+    var btn = e.target.closest('.opt');
+    if (btn && !done) {
+      pick(parseInt(btn.getAttribute('data-idx'), 10));
+    }
+  });
 
 };
 </script>
-
 </body>
 </html>
