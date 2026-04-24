@@ -45,16 +45,28 @@ body {
   max-width: 600px;
 }
 
-/* ── shared ──────────────────────────────────────────────── */
-.mono-label {
-  font-size: 10px;
-  letter-spacing: .25em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
 /* ── INTRO ───────────────────────────────────────────────── */
 #p-intro { text-align: center; max-width: 480px; }
+
+.lang-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 28px;
+}
+
+.btn-lang {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 6px 14px;
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  cursor: pointer;
+  transition: background .12s;
+}
+.btn-lang:hover { background: var(--accent-dim); }
 
 .intro-eyebrow {
   font-size: 10px;
@@ -101,10 +113,19 @@ body {
   color: var(--muted);
   margin-bottom: 6px;
 }
-.info-card .ic-val {
-  font-size: 22px;
+.info-card .ic-val-text {
+  font-size: 13px;
   font-weight: 700;
   color: var(--accent);
+  line-height: 1.4;
+}
+
+.share-note {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .04em;
+  margin-top: 20px;
+  line-height: 1.6;
 }
 
 /* ── QUESTION ────────────────────────────────────────────── */
@@ -123,14 +144,11 @@ body {
   align-items: baseline;
   margin-bottom: 8px;
 }
-.q-num { font-size: 11px; letter-spacing: .18em; color: var(--muted); }
+.q-num   { font-size: 11px; letter-spacing: .18em; color: var(--muted); }
 .q-score { font-size: 11px; letter-spacing: .18em; color: var(--accent); }
 
-.progress-track {
-  height: 2px;
-  background: var(--border);
-}
-.progress-fill {
+.progress-track { height: 2px; background: var(--border); }
+.progress-fill  {
   height: 100%;
   background: var(--accent);
   transition: width .45s ease;
@@ -170,15 +188,11 @@ body {
   color: var(--accent);
   transition: color .25s;
 }
-.timer-shell.urgent .t-ring  { stroke: var(--no); }
+.timer-shell.urgent .t-ring    { stroke: var(--no); }
 .timer-shell.urgent .timer-num { color: var(--no); }
 
 /* question content */
-.q-tags {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
-}
+.q-tags { display: flex; gap: 8px; margin-bottom: 14px; }
 .tag {
   font-size: 9px;
   letter-spacing: .2em;
@@ -195,6 +209,7 @@ body {
   line-height: 1.45;
   color: #ffffff;
   margin-bottom: 10px;
+  white-space: pre-wrap;
 }
 .q-sub {
   font-size: 14px;
@@ -259,9 +274,9 @@ body {
   margin-bottom: 16px;
   line-height: 1.5;
 }
-.feedback.show { display: block; }
-.feedback.fb-ok      { background: rgba(78,203,130,.1);  color: var(--ok); border-left: 3px solid var(--ok); }
-.feedback.fb-no      { background: rgba(240,80,94,.1);   color: var(--no); border-left: 3px solid var(--no); }
+.feedback.show       { display: block; }
+.feedback.fb-ok      { background: rgba(78,203,130,.1);  color: var(--ok);    border-left: 3px solid var(--ok); }
+.feedback.fb-no      { background: rgba(240,80,94,.1);   color: var(--no);    border-left: 3px solid var(--no); }
 .feedback.fb-timeout { background: rgba(200,245,66,.07); color: var(--accent); border-left: 3px solid var(--accent); }
 
 /* ── shared buttons ──────────────────────────────────────── */
@@ -296,7 +311,7 @@ body {
   transition: background .12s;
 }
 .btn-outline:hover { background: var(--accent-dim); }
-.btn-outline.show { display: inline-block; }
+.btn-outline.show  { display: inline-block; }
 
 /* ── RESULTS ─────────────────────────────────────────────── */
 #p-result { max-width: 560px; }
@@ -326,7 +341,15 @@ body {
   letter-spacing: .12em;
   text-transform: uppercase;
   margin-top: 10px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+}
+.iq-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 400px;
+  margin: 0 auto 6px;
+  letter-spacing: .03em;
 }
 .iq-percentile { font-size: 12px; color: var(--muted); }
 
@@ -390,37 +413,63 @@ body {
   text-align: right;
   flex-shrink: 0;
 }
+
+/* cognitive profile */
+.profile-section { margin-bottom: 36px; }
+.profile-card {
+  background: var(--surface);
+  border: 1px solid rgba(200,245,66,.25);
+  border-left: 3px solid var(--accent);
+  padding: 20px 22px;
+  margin-top: 14px;
+}
+.profile-key {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.profile-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  letter-spacing: .03em;
+}
+
+.result-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.result-btns .btn-outline.show { display: block; }
+
+.result-note {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.7;
+  letter-spacing: .04em;
+  text-align: center;
+  margin-top: 20px;
+  padding: 0 8px;
+}
 </style>
 </head>
 <body>
 
 <!-- ═══════════════ INTRO ═══════════════ -->
 <div id="p-intro" class="page active">
-  <p class="intro-eyebrow">// Cognitive Assessment v3.0</p>
-  <h1 class="intro-title">IQ<br><em>Test</em></h1>
-  <p class="intro-desc">
-    Measure verbal reasoning, numerical aptitude,<br>
-    spatial awareness, and logical thinking.
-  </p>
-  <div class="info-grid">
-    <div class="info-card">
-      <div class="ic-label">Questions</div>
-      <div class="ic-val">15</div>
-    </div>
-    <div class="info-card">
-      <div class="ic-label">Time / Question</div>
-      <div class="ic-val">30s</div>
-    </div>
-    <div class="info-card">
-      <div class="ic-label">Domains</div>
-      <div class="ic-val">4</div>
-    </div>
-    <div class="info-card">
-      <div class="ic-label">Est. Duration</div>
-      <div class="ic-val">~7 min</div>
-    </div>
+  <div class="lang-row">
+    <button id="btn-lang" class="btn-lang">ES</button>
   </div>
-  <button class="btn-solid" id="btn-start">Begin Assessment →</button>
+  <p class="intro-eyebrow" id="intro-tag"></p>
+  <h1 class="intro-title"  id="intro-title"></h1>
+  <p class="intro-desc"    id="intro-desc"></p>
+  <div class="info-grid"   id="info-grid"></div>
+  <button class="btn-solid" id="btn-start"></button>
+  <p class="share-note"    id="share-note"></p>
 </div>
 
 <!-- ═══════════════ QUESTION ═══════════════ -->
@@ -428,8 +477,8 @@ body {
   <div class="q-topbar">
     <div class="q-progress-col">
       <div class="q-meta-row">
-        <span class="q-num" id="q-num">Question 1 of 15</span>
-        <span class="q-score" id="q-score">Score: 0</span>
+        <span class="q-num"   id="q-num"></span>
+        <span class="q-score" id="q-score"></span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="q-bar"></div>
@@ -445,213 +494,208 @@ body {
   </div>
 
   <div class="q-tags">
-    <span class="tag domain-tag" id="q-domain">VERBAL</span>
-    <span class="tag" id="q-category">// ANALOGY</span>
+    <span class="tag domain-tag" id="q-domain"></span>
+    <span class="tag"            id="q-category"></span>
   </div>
 
   <div class="q-text" id="q-text"></div>
   <div class="q-sub"  id="q-sub"></div>
 
   <div class="options-list" id="q-opts"></div>
+  <div class="feedback"     id="q-feedback"></div>
 
-  <div class="feedback" id="q-feedback"></div>
-
-  <button class="btn-outline" id="btn-next">Next Question →</button>
+  <button class="btn-outline" id="btn-next"></button>
 </div>
 
 <!-- ═══════════════ RESULTS ═══════════════ -->
 <div id="p-result" class="page">
   <div class="result-score-block">
-    <p class="result-eyebrow">Your Estimated IQ</p>
-    <div class="iq-number" id="r-iq">—</div>
-    <div class="iq-class"      id="r-class"></div>
+    <p class="result-eyebrow" id="r-eyebrow"></p>
+    <div class="iq-number"    id="r-iq">—</div>
+    <div class="iq-class"     id="r-class"></div>
+    <div class="iq-desc"      id="r-desc"></div>
     <div class="iq-percentile" id="r-pct"></div>
   </div>
 
   <div class="stats-row">
     <div class="stat-card">
       <div class="stat-val"   id="r-correct">0</div>
-      <div class="stat-label">Correct</div>
+      <div class="stat-label" id="lbl-correct"></div>
     </div>
     <div class="stat-card">
       <div class="stat-val"   id="r-wrong">0</div>
-      <div class="stat-label">Wrong</div>
+      <div class="stat-label" id="lbl-wrong"></div>
     </div>
     <div class="stat-card">
       <div class="stat-val"   id="r-timeout">0</div>
-      <div class="stat-label">Timeout</div>
+      <div class="stat-label" id="lbl-timeout"></div>
     </div>
   </div>
 
   <div class="domains-section">
-    <p class="domains-title">Domain Breakdown</p>
+    <p class="domains-title" id="domains-title"></p>
     <div class="domain-row">
-      <span class="domain-name">Verbal</span>
+      <span class="domain-name" id="lbl-verbal"></span>
       <div class="domain-track"><div class="domain-fill" id="bar-verbal"></div></div>
-      <span class="domain-pct" id="pct-verbal">0%</span>
+      <span class="domain-pct"  id="pct-verbal">0%</span>
     </div>
     <div class="domain-row">
-      <span class="domain-name">Numerical</span>
+      <span class="domain-name" id="lbl-numerical"></span>
       <div class="domain-track"><div class="domain-fill" id="bar-numerical"></div></div>
-      <span class="domain-pct" id="pct-numerical">0%</span>
+      <span class="domain-pct"  id="pct-numerical">0%</span>
     </div>
     <div class="domain-row">
-      <span class="domain-name">Spatial</span>
+      <span class="domain-name" id="lbl-spatial"></span>
       <div class="domain-track"><div class="domain-fill" id="bar-spatial"></div></div>
-      <span class="domain-pct" id="pct-spatial">0%</span>
+      <span class="domain-pct"  id="pct-spatial">0%</span>
     </div>
     <div class="domain-row">
-      <span class="domain-name">Logic</span>
+      <span class="domain-name" id="lbl-logic"></span>
       <div class="domain-track"><div class="domain-fill" id="bar-logic"></div></div>
-      <span class="domain-pct" id="pct-logic">0%</span>
+      <span class="domain-pct"  id="pct-logic">0%</span>
     </div>
   </div>
 
-  <button class="btn-solid" id="btn-restart">Retake Assessment →</button>
+  <div class="profile-section">
+    <p class="domains-title" id="profile-label"></p>
+    <div class="profile-card">
+      <div class="profile-key"  id="profile-key"></div>
+      <p   class="profile-desc" id="profile-desc"></p>
+    </div>
+  </div>
+
+  <div class="result-btns">
+    <button class="btn-solid"        id="btn-restart"></button>
+    <button class="btn-outline show" id="btn-share"></button>
+  </div>
+  <p class="result-note" id="result-note"></p>
 </div>
 
+<script src="questions.js"></script>
 <script>
 window.onload = function () {
 
-  var QUESTIONS = [
-    /* ── Verbal ─────────────────────────────────────────────────── */
-    {
-      domain: 'Verbal', category: 'Analogy',
-      text: 'BOOK is to LIBRARY as PAINTING is to ___',
-      sub: 'Choose the word that best completes the analogy.',
-      opts: ['Studio', 'Museum', 'Canvas', 'Gallery'],
-      answer: 1
-    },
-    {
-      domain: 'Verbal', category: 'Odd One Out',
-      text: 'Which word does not belong with the others?',
-      sub: 'Consider what the remaining three have in common.',
-      opts: ['Sparrow', 'Eagle', 'Penguin', 'Hawk'],
-      answer: 2
-    },
-    {
-      domain: 'Verbal', category: 'Vocabulary',
-      text: '"Ephemeral" most nearly means:',
-      sub: 'Select the closest definition.',
-      opts: ['Eternal', 'Fleeting', 'Enormous', 'Colorful'],
-      answer: 1
-    },
-    {
-      domain: 'Verbal', category: 'Analogy',
-      text: 'DOCTOR is to HOSPITAL as JUDGE is to ___',
-      sub: 'Choose the word that best completes the analogy.',
-      opts: ['Verdict', 'Courtroom', 'Prison', 'Law'],
-      answer: 1
-    },
-    /* ── Numerical ───────────────────────────────────────────────── */
-    {
-      domain: 'Numerical', category: 'Number Series',
-      text: 'What number comes next in the sequence?',
-      sub: '2   →   6   →   18   →   54   →   ___',
-      opts: ['108', '144', '162', '180'],
-      answer: 2
-    },
-    {
-      domain: 'Numerical', category: 'Geometry',
-      text: 'A rectangle has length 8 and width 5. What is its perimeter?',
-      sub: 'Perimeter is the total distance around all four sides.',
-      opts: ['13', '26', '40', '30'],
-      answer: 1
-    },
-    {
-      domain: 'Numerical', category: 'Percentage',
-      text: 'What is 15% of 240?',
-      sub: 'Calculate the exact value.',
-      opts: ['24', '30', '36', '42'],
-      answer: 2
-    },
-    {
-      domain: 'Numerical', category: 'Algebra',
-      text: 'If 3x + 7 = 22, what is the value of x?',
-      sub: 'Solve for x.',
-      opts: ['3', '4', '5', '6'],
-      answer: 2
-    },
-    /* ── Spatial ─────────────────────────────────────────────────── */
-    {
-      domain: 'Spatial', category: 'Pattern Sequence',
-      text: 'What comes next in the series?',
-      sub: '▲   ▽   ▲▲   ▽▽   ▲▲▲   ___',
-      opts: ['▲▲▲▲', '▽▽▽', '▽▽', '▽'],
-      answer: 1
-    },
-    {
-      domain: 'Spatial', category: 'Clock Angles',
-      text: 'A clock shows exactly 3:00. What is the angle between the hour and minute hands?',
-      sub: 'A full clock face spans 360°.',
-      opts: ['45°', '60°', '90°', '120°'],
-      answer: 2
-    },
-    {
-      domain: 'Spatial', category: 'Counting Shapes',
-      text: 'How many squares of all sizes are contained in a 3 × 3 grid?',
-      sub: 'Include all overlapping squares, not just the small unit squares.',
-      opts: ['9', '12', '14', '16'],
-      answer: 2
-    },
-    {
-      domain: 'Spatial', category: 'Nets & Faces',
-      text: 'When a cube is unfolded flat into a net, how many faces does that net contain?',
-      sub: 'Think about every distinct face on a 3-D cube.',
-      opts: ['4', '5', '6', '8'],
-      answer: 2
-    },
-    /* ── Logic ───────────────────────────────────────────────────── */
-    {
-      domain: 'Logic', category: 'Syllogism',
-      text: 'All roses are flowers. Some flowers fade quickly. Therefore:',
-      sub: 'Choose the only logically valid conclusion.',
-      opts: [
-        'All roses fade quickly',
-        'Some roses may fade quickly',
-        'No roses fade quickly',
-        'Roses are not flowers'
-      ],
-      answer: 1
-    },
-    {
-      domain: 'Logic', category: 'Ordering',
-      text: 'If A > B, B > C, and C > D, which statement must be true?',
-      sub: 'Apply transitivity of inequalities.',
-      opts: ['A = D', 'D > A', 'A > D', 'B = C'],
-      answer: 2
-    },
-    {
-      domain: 'Logic', category: 'Odd One Out',
-      text: 'Which number does not belong in this group?',
-      sub: 'Three of the four share a well-known mathematical property.',
-      opts: ['4', '8', '9', '16'],
-      answer: 1
-    }
-  ];
-
+  var lang = 'en';
+  var QUESTIONS;
   var LETTERS = ['A', 'B', 'C', 'D'];
-  var CIRC    = 2 * Math.PI * 22; // stroke-dasharray for r=22
+  var CIRC    = 2 * Math.PI * 22;
 
   var cur, answers, timerID, secs, done, score;
+  var domainTotals, domainHits;
 
-  /* ── helpers ──────────────────────────────────────────────────── */
-  function show(id) {
-    var pages = document.querySelectorAll('.page');
-    for (var i = 0; i < pages.length; i++) {
-      pages[i].classList.remove('active');
-    }
-    document.getElementById(id).classList.add('active');
-  }
+  var DOMAIN_LABELS = {
+    en: { Verbal: 'Verbal', Numerical: 'Numerical', Spatial: 'Spatial', Logic: 'Logic' },
+    es: { Verbal: 'Verbal', Numerical: 'Numérico',  Spatial: 'Espacial', Logic: 'Lógica' }
+  };
 
+  var DIFFICULTY_LABELS = {
+    en: { 1: '// Easy', 2: '// Medium', 3: '// Hard' },
+    es: { 1: '// Fácil', 2: '// Medio',  3: '// Difícil' }
+  };
+
+  var STAT_LABELS = {
+    en: { correct: 'Correct', wrong: 'Wrong',       timeout: 'Timeout'    },
+    es: { correct: 'Correcto', wrong: 'Incorrecto', timeout: 'Sin tiempo' }
+  };
+
+  /* ── helpers ────────────────────────────────────────────── */
   function el(id) { return document.getElementById(id); }
 
-  /* ── game flow ────────────────────────────────────────────────── */
+  function show(id) {
+    var pages = document.querySelectorAll('.page');
+    for (var i = 0; i < pages.length; i++) { pages[i].classList.remove('active'); }
+    el(id).classList.add('active');
+  }
+
+  /* ── language toggle ────────────────────────────────────── */
+  function toggleLang() {
+    lang = lang === 'en' ? 'es' : 'en';
+    el('btn-lang').textContent = lang === 'en' ? 'ES' : 'EN';
+    document.documentElement.lang = lang;
+    renderIntro();
+  }
+
+  /* ── intro ──────────────────────────────────────────────── */
+  function renderIntro() {
+    var s = UI_STRINGS[lang];
+    el('intro-tag').textContent   = s.tag;
+    el('intro-title').innerHTML   =
+      s.title1 + '<br>' + s.title2 + '<br><em>' + s.titleAccent + '</em>';
+    el('intro-desc').textContent  = s.subtitle;
+    el('info-grid').innerHTML     =
+      infoCard(s.infoD,   s.infoDA)   +
+      infoCard(s.infoT,   s.infoTA)   +
+      infoCard(s.infoDif, s.infoDifA) +
+      infoCard(s.infoS,   s.infoSA);
+    el('btn-start').textContent   = s.begin;
+    el('share-note').textContent  = s.shareNote;
+  }
+
+  function infoCard(label, val) {
+    return '<div class="info-card">' +
+             '<div class="ic-label">'    + label + '</div>' +
+             '<div class="ic-val-text">' + val   + '</div>' +
+           '</div>';
+  }
+
+  /* ── question selection ─────────────────────────────────── */
+  function shuffleArray(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j   = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    return arr;
+  }
+
+  function selectRaw() {
+    var quotas   = [['Verbal', 4], ['Numerical', 4], ['Spatial', 4], ['Logic', 3]];
+    var selected = [];
+    for (var d = 0; d < quotas.length; d++) {
+      var dom   = quotas[d][0];
+      var count = quotas[d][1];
+      var pool  = [];
+      for (var i = 0; i < QUESTION_BANK.length; i++) {
+        if (QUESTION_BANK[i].domain === dom) { pool.push(QUESTION_BANK[i]); }
+      }
+      shuffleArray(pool);
+      var take = Math.min(count, pool.length);
+      for (var i = 0; i < take; i++) { selected.push(pool[i]); }
+    }
+    shuffleArray(selected);
+    return selected;
+  }
+
+  function buildRuntimeQuestion(q) {
+    var perm       = [0, 1, 2, 3];
+    shuffleArray(perm);
+    var origAnswer = q[lang].a;
+    var opts       = [];
+    for (var i = 0; i < perm.length; i++) { opts.push(q[lang].o[perm[i]]); }
+    return {
+      domain:     q.domain,
+      difficulty: q.difficulty,
+      text:       q[lang].q,
+      sub:        q[lang].s,
+      opts:       opts,
+      answer:     perm.indexOf(origAnswer)
+    };
+  }
+
+  /* ── game flow ──────────────────────────────────────────── */
   function startTest() {
-    cur     = 0;
-    score   = 0;
+    var raw = selectRaw();
+    QUESTIONS = [];
+    for (var i = 0; i < raw.length; i++) { QUESTIONS.push(buildRuntimeQuestion(raw[i])); }
+
+    cur   = 0;
+    score = 0;
     answers = [];
     for (var i = 0; i < QUESTIONS.length; i++) { answers.push(-1); }
+
+    domainTotals = { Verbal: 0, Numerical: 0, Spatial: 0, Logic: 0 };
+    domainHits   = { Verbal: 0, Numerical: 0, Spatial: 0, Logic: 0 };
+    for (var i = 0; i < QUESTIONS.length; i++) { domainTotals[QUESTIONS[i].domain]++; }
+
     show('p-question');
     renderQuestion();
   }
@@ -661,23 +705,24 @@ window.onload = function () {
     done = false;
 
     var q   = QUESTIONS[cur];
+    var s   = UI_STRINGS[lang];
     var pct = Math.round((cur / QUESTIONS.length) * 100);
 
-    el('q-num').textContent      = 'Question ' + (cur + 1) + ' of ' + QUESTIONS.length;
-    el('q-score').textContent    = 'Score: ' + score;
+    el('q-num').textContent      = s.questionOf + ' ' + (cur + 1) + ' ' + s.of + ' ' + QUESTIONS.length;
+    el('q-score').textContent    = s.score + ' ' + score;
     el('q-bar').style.width      = pct + '%';
-    el('q-domain').textContent   = q.domain.toUpperCase();
-    el('q-category').textContent = '// ' + q.category.toUpperCase();
+    el('q-domain').textContent   = DOMAIN_LABELS[lang][q.domain].toUpperCase();
+    el('q-category').textContent = DIFFICULTY_LABELS[lang][q.difficulty];
     el('q-text').textContent     = q.text;
-    el('q-sub').textContent      = q.sub;
+    el('q-sub').textContent      = q.sub || '';
 
-    var fb = el('q-feedback');
-    fb.className    = 'feedback';
-    fb.textContent  = '';
+    var fb      = el('q-feedback');
+    fb.className   = 'feedback';
+    fb.textContent = '';
 
     var btnNext = el('btn-next');
     btnNext.classList.remove('show');
-    btnNext.textContent = (cur === QUESTIONS.length - 1) ? 'See Results →' : 'Next Question →';
+    btnNext.textContent = s.next;
 
     var list = el('q-opts');
     list.innerHTML = '';
@@ -695,7 +740,7 @@ window.onload = function () {
     startTimer();
   }
 
-  /* ── timer ────────────────────────────────────────────────────── */
+  /* ── timer ──────────────────────────────────────────────── */
   function startTimer() {
     secs = 30;
     refreshTimer();
@@ -713,13 +758,14 @@ window.onload = function () {
     el('t-num').textContent = secs;
   }
 
-  /* ── answer handling ──────────────────────────────────────────── */
+  /* ── answer handling ────────────────────────────────────── */
   function pick(idx) {
     if (done) { return; }
     done = true;
     clearInterval(timerID);
 
     var q    = QUESTIONS[cur];
+    var s    = UI_STRINGS[lang];
     var opts = document.querySelectorAll('.opt');
     for (var i = 0; i < opts.length; i++) { opts[i].disabled = true; }
 
@@ -727,25 +773,27 @@ window.onload = function () {
 
     if (idx === q.answer) {
       score++;
+      domainHits[q.domain]++;
       opts[idx].classList.add('state-correct');
-      showFeedback('fb-ok', '✓  Correct');
+      showFeedback('fb-ok', s.correct);
     } else {
       opts[idx].classList.add('state-wrong');
       opts[q.answer].classList.add('state-reveal');
-      showFeedback('fb-no', '✗  Incorrect — correct answer: ' + LETTERS[q.answer]);
+      showFeedback('fb-no', s.incorrect + LETTERS[q.answer]);
     }
 
-    el('q-score').textContent = 'Score: ' + score;
+    el('q-score').textContent = s.score + ' ' + score;
     el('btn-next').classList.add('show');
   }
 
   function timeOut() {
     done = true;
     var q    = QUESTIONS[cur];
+    var s    = UI_STRINGS[lang];
     var opts = document.querySelectorAll('.opt');
     for (var i = 0; i < opts.length; i++) { opts[i].disabled = true; }
     opts[q.answer].classList.add('state-reveal');
-    showFeedback('fb-timeout', '⏱  Time expired — correct answer: ' + LETTERS[q.answer]);
+    showFeedback('fb-timeout', s.timeout + LETTERS[q.answer]);
     el('btn-next').classList.add('show');
   }
 
@@ -760,60 +808,76 @@ window.onload = function () {
     if (cur >= QUESTIONS.length) { showResults(); } else { renderQuestion(); }
   }
 
-  /* ── results ──────────────────────────────────────────────────── */
+  /* ── results ────────────────────────────────────────────── */
   function calcIQ(correct) {
-    return Math.round(85 + (correct / QUESTIONS.length) * 57);
+    return Math.round(70 + (correct / QUESTIONS.length) * 75);
   }
 
   function iqLabel(iq) {
-    if (iq >= 138) { return ['Exceptional',    'Top 0.5% of population']; }
-    if (iq >= 128) { return ['Gifted',          'Top 3% of population'];   }
-    if (iq >= 118) { return ['Superior',        'Top 11% of population'];  }
-    if (iq >= 108) { return ['Above Average',   'Top 27% of population'];  }
-    if (iq >= 95)  { return ['Average',         'Middle 50% of population']; }
-    return                  ['Below Average',   'Bottom 25% of population'];
+    var classes    = UI_STRINGS[lang].iqClasses;
+    var thresholds = [145, 130, 120, 110, 90, 80, 0];
+    for (var i = 0; i < thresholds.length; i++) {
+      if (iq >= thresholds[i]) { return classes[thresholds[i]]; }
+    }
+    return classes[0];
   }
 
   function showResults() {
     clearInterval(timerID);
     show('p-result');
 
+    var s   = UI_STRINGS[lang];
+    var st  = STAT_LABELS[lang];
+    var dl  = DOMAIN_LABELS[lang];
     var iq  = calcIQ(score);
     var lbl = iqLabel(iq);
 
-    el('r-class').textContent = lbl[0];
-    el('r-pct').textContent   = lbl[1];
+    el('r-eyebrow').textContent = s.scoreLabel;
+    el('r-class').textContent   = lbl[0];
+    el('r-desc').textContent    = lbl[1];
+    el('r-pct').textContent     = lbl[2];
 
     var wrong   = 0;
     var timeout = 0;
     for (var i = 0; i < answers.length; i++) {
-      if (answers[i] === -1)                          { timeout++; }
-      else if (answers[i] !== QUESTIONS[i].answer)    { wrong++;   }
+      if (answers[i] === -1)                       { timeout++; }
+      else if (answers[i] !== QUESTIONS[i].answer) { wrong++;   }
     }
-    el('r-correct').textContent = score;
-    el('r-wrong').textContent   = wrong;
-    el('r-timeout').textContent = timeout;
+    el('r-correct').textContent  = score;
+    el('r-wrong').textContent    = wrong;
+    el('r-timeout').textContent  = timeout;
+    el('lbl-correct').textContent = st.correct;
+    el('lbl-wrong').textContent   = st.wrong;
+    el('lbl-timeout').textContent = st.timeout;
 
-    var domains = ['Verbal', 'Numerical', 'Spatial', 'Logic'];
+    el('domains-title').textContent = s.breakdown;
+    el('lbl-verbal').textContent    = dl.Verbal;
+    el('lbl-numerical').textContent = dl.Numerical;
+    el('lbl-spatial').textContent   = dl.Spatial;
+    el('lbl-logic').textContent     = dl.Logic;
+
+    var domains      = ['Verbal', 'Numerical', 'Spatial', 'Logic'];
+    var domainScores = {};
     for (var d = 0; d < domains.length; d++) {
       var dom   = domains[d];
-      var total = 0;
-      var hits  = 0;
-      for (var i = 0; i < QUESTIONS.length; i++) {
-        if (QUESTIONS[i].domain === dom) {
-          total++;
-          if (answers[i] === QUESTIONS[i].answer) { hits++; }
-        }
-      }
-      var pct = total > 0 ? Math.round((hits / total) * 100) : 0;
-      var key = dom.toLowerCase();
-      el('bar-' + key).style.width  = pct + '%';
-      el('pct-' + key).textContent  = pct + '%';
+      var ratio = domainTotals[dom] > 0 ? domainHits[dom] / domainTotals[dom] : 0;
+      domainScores[dom] = ratio;
+      var pct   = Math.round(ratio * 100);
+      el('bar-' + dom.toLowerCase()).style.width = pct + '%';
+      el('pct-' + dom.toLowerCase()).textContent = pct + '%';
     }
 
-    /* animated IQ counter */
-    var display  = el('r-iq');
-    var current  = Math.round(iq * 0.6);
+    var profile = getCognitiveProfile(domainScores, lang);
+    el('profile-label').textContent = s.profileLabel;
+    el('profile-key').textContent   = profile.key;
+    el('profile-desc').textContent  = profile.desc;
+
+    el('btn-restart').textContent = s.retake;
+    el('btn-share').textContent   = s.share;
+    el('result-note').textContent = s.percentileNote;
+
+    var display = el('r-iq');
+    var current = Math.round(iq * 0.6);
     display.textContent = current;
     var step = setInterval(function () {
       current += Math.ceil((iq - current) / 5);
@@ -822,10 +886,26 @@ window.onload = function () {
     }, 35);
   }
 
-  /* ── event listeners ──────────────────────────────────────────── */
+  /* ── event listeners ────────────────────────────────────── */
+  el('btn-lang').addEventListener('click', toggleLang);
+
   el('btn-start').addEventListener('click', startTest);
+
   el('btn-next').addEventListener('click', nextQuestion);
-  el('btn-restart').addEventListener('click', startTest);
+
+  el('btn-restart').addEventListener('click', function () {
+    renderIntro();
+    show('p-intro');
+  });
+
+  el('btn-share').addEventListener('click', function () {
+    var s = UI_STRINGS[lang];
+    navigator.clipboard.writeText(window.location.href).then(function () {
+      var old = el('btn-share').textContent;
+      el('btn-share').textContent = s.copied;
+      setTimeout(function () { el('btn-share').textContent = old; }, 2000);
+    }).catch(function () {});
+  });
 
   el('q-opts').addEventListener('click', function (e) {
     var btn = e.target.closest('.opt');
@@ -834,6 +914,7 @@ window.onload = function () {
     }
   });
 
+  renderIntro();
 };
 </script>
 </body>
